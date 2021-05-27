@@ -139,7 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FilesManager.cpp" />
     <ClCompile Include="mini-saraha.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FilesManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
