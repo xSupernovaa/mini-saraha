@@ -139,8 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FilesManager.cpp" />
     <ClCompile Include="mini-saraha.cpp" />
+    <ClCompile Include="User.cpp" />
     <ClCompile Include="Server.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="User.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FilesManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Server.h" />
