@@ -1,21 +1,25 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "User.h"
+#include <assert.h>
 
-//#include "User.h"
+using namespace std;
+
 class Server
 {
-	//vector<User> 
-	static int noUsers;
+	static vector<User> users;
+	static int userCount;
 
 
 	//Cache
 	
-	//User current_logged_user;
+	User current_logged_user;
 	
 public:
+
 	Server();
-	void addUser(int sourceId, int targetId);
+	void addContact(int sourceId, int targetId);
 	void sendMessage(int sourceId, int targetId, string message);
 	void deleteLastMessage();
 	void viewMessages(int userId);
@@ -26,9 +30,19 @@ public:
 	~Server();
 
 
-	static int findUser(int id)
+	static User findUser(int id)
 	{
+		if (id >= 0 && id <= userCount)
+			return users[id];
+		else
+			cout << "User Id out of bounds\n";
 
+		
+	}
+
+	static bool idExists(int userID)
+	{
+		return (userID >= 0 && userID <= userCount);
 	}
 
 };
