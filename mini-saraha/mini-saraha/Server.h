@@ -2,21 +2,22 @@
 #include <vector>
 #include <string>
 #include "User.h"
-#include <assert.h>
 
 using namespace std;
 
 class Server
 {
-	static vector<User> users;
-	static int userCount;
+	
 
-
+	 
 	//Cache
 	
-	User current_logged_user;
+	User* current_logged_user;
 	
 public:
+	static  vector<User> users;
+	static int userCount;
+
 
 	Server();
 	void addContact(int sourceId, int targetId);
@@ -30,17 +31,17 @@ public:
 	~Server();
 
 
-	static User findUser(int id)
+	static User* findUser(int id)
 	{
 		if (id >= 0 && id <= userCount)
-			return users[id];
+			return &users[id];
 		else
 			cout << "User Id out of bounds\n";
 
-		
+		return nullptr;
 	}
 
-	static bool idExists(int userID)
+	 static bool idExists(int userID)
 	{
 		return (userID >= 0 && userID <= userCount);
 	}
