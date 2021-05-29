@@ -76,33 +76,21 @@ void FilesManager::add_new_user_credintials_to_disc(string username, string pass
 
 void FilesManager::create_new_user_data_files(string folder_path)
 {
-	string sent_messages_string = folder_path + "/sent_messages.txt";
-	string received_messages_string = folder_path + "/received_messages.txt";
-	string contacts_string = folder_path + "/contacts.txt";
-	string favorite_messages_string = folder_path + "/favorite_messages.txt";
+	string sent_messages = folder_path + "/sent_messages.txt";
+	string received_messages = folder_path + "/received_messages.txt";
+	string contacts = folder_path + "/contacts.txt";
+	string favorite_messages = folder_path + "/favorite_messages.txt";
 
-	const char* sent_messages = sent_messages_string.c_str();
-	const char* received_messages = received_messages_string.c_str();
-	const char* contacts = contacts_string.c_str();
-	const char* favorite_messages = favorite_messages_string.c_str();
+	create_new_user_file(sent_messages);
+	create_new_user_file(received_messages);
+	create_new_user_file(contacts);
+	create_new_user_file(favorite_messages);
+}
 
-	// create sent_messages.txt
-	filesWriter.open(sent_messages);
-	filesWriter.clear();
-	filesWriter.close();
-
-	// create received_messages.txt
-	filesWriter.open(received_messages);
-	filesWriter.clear();
-	filesWriter.close();
-
-	// create contacts.txt
-	filesWriter.open(contacts);
-	filesWriter.clear();
-	filesWriter.close();
-
-	// create favorite_messages.txt
-	filesWriter.open(favorite_messages);
+void FilesManager::create_new_user_file(string file_path)
+{
+	const char* file_name = file_path.c_str();
+	filesWriter.open(file_name);
 	filesWriter.clear();
 	filesWriter.close();
 }

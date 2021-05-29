@@ -19,6 +19,6 @@ private:
 	string make_new_user_folder(string folder_name);
 	void add_new_user_credintials_to_disc(string username, string password, int id);
 	void create_new_user_data_files(string folder_path);
-
+	void create_new_user_file(string file_path);
 };
 
