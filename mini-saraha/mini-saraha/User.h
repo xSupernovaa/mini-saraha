@@ -4,24 +4,26 @@
 #include<iostream>
 #include<deque>
 #include<stack>
+#include "Message.h"
+#include "Server.h"
 
 using namespace std;
 class User
 {
 private:
 	int id;
-	string name;
 	string userName;
 	string password;
-	vector<User> contacts;
-	stack<string> sentMassages;
-	stack<string> receivedMassages;
-	deque<int> favoriteMassages;
+	vector<int> contacts;
+	stack<Message> sentMessages;
+	stack<Message> receivedMessages;
+	deque<Message> favoriteMessages;
 public:
-	User(int id, string userName, string name, string password);
-	void sendMassage(int senderId, int recieverId, string meassage);
-	void addToFavorite(int massageId);
-	void addContact(User contactId);
+	User(int id, string userName, string password);
+	void sendMessage(Message message);
+	void recieveMessage(Message message);
+	void addToFavorite(Message message);
+	void addContact(int contactId);
 	void showContacts();
 	void deleteLastFavorite();
 	void undoLastMassage();
@@ -31,6 +33,5 @@ public:
 	int getID();
 	string getUsername();
 	string getPassword();
-
 };
 

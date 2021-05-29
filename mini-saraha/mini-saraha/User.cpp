@@ -1,40 +1,35 @@
 #include "User.h"
 #include <assert.h>
 
-User::User(int id, string userName,string name, string password)
+User::User(int id, string userName, string password)
 {
 	this->id = id;
-	this->name = name;
 	this->userName = userName;
 	this->password = password;
 
 	//then store the whole user in the files from server class 
 }
 
-void User::sendMassage(int senderId, int recieverId, string meassage)
+void User::sendMessage(Message newMessage)
 {
-	//sending massage to another user in the server 
-	Message newMessage(senderId, recieverId, meassage);
-	if (!contacts.empty()) {
-		for (int contact = 0; contact < contacts.size(); contact++)
-		{
-			if (contacts[contact].id == recieverId)
-				this->contacts[contact].receivedMassages.push(newMessage); // add message to reciever's receivedMassages
-		}
-	}
-	this->sentMassages.push(newMessage);
+	//waiting ayman to explain  
+}
+
+void User::recieveMessage(Message message)
+{
+	// waiting for bassel to add the function for storing massages 
 }
 
 //to add massages to favorites 
-void User::addToFavorite(int massageId)
+void User::addToFavorite(Message message)
 {
 	// retrive data then ..
-	favoriteMassages.push_front(massageId);
+	favoriteMessages.push_front(message);
 	//or we could add it to file directly ..
 }
 
 //to add contact 
-void User::addContact(User contactId)
+void User::addContact(int contactId)
 {
 	//retrive data then .. 
 	this->contacts.push_back(contactId);
@@ -47,7 +42,7 @@ void User::showContacts()
 	if (!contacts.empty()) {
 		for (int contact = 0; contact < contacts.size(); contact++)
 		{
-			cout << contacts[contact].name << " " << contacts[contact].id << endl;
+			cout << contacts[contact] << endl;
 		}
 	}
 }
@@ -55,17 +50,17 @@ void User::showContacts()
 void User::deleteLastFavorite()
 {
 	//retriving data first 
-	if (!favoriteMassages.empty()) {
-		favoriteMassages.pop_back();
+	if (!favoriteMessages.empty()) {
+		favoriteMessages.pop_back();
 	}
 }
 
 void User::undoLastMassage()
 {
-	/* we could use temporary variable approach or 
+	/* we could use temporary variable approach or
 	we could retrive data and do the following operation*/
-	if (!sentMassages.empty()) {
-		sentMassages.pop();
+	if (!sentMessages.empty()) {
+		sentMessages.pop();
 	}
 }
 
@@ -77,22 +72,22 @@ void User::searchUser()
 void User::showSentMassages()
 {
 	//retriving data from dataset 
-	assert(!sentMassages.empty());
-	while (!sentMassages.empty())
+	assert(!sentMessages.empty());
+	while (!sentMessages.empty())
 	{
-		cout << sentMassages.top().getMessageBody() << endl;
-		sentMassages.pop();
+		cout << sentMessages.top().getMessageBody() << endl;
+		sentMessages.pop();
 	}
 }
 
 void User::showrecievedMassages()
 {
 	//retriving data from dataset 
-	assert(!receivedMassages.empty());
-	while (!receivedMassages.empty())
+	assert(!receivedMessages.empty());
+	while (!receivedMessages.empty())
 	{
-		cout << receivedMassages.top().getMessageBody() << endl;
-		receivedMassages.pop();
+		cout << receivedMessages.top().getMessageBody() << endl;
+		receivedMessages.pop();
 	}
 }
 

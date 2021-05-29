@@ -1,4 +1,3 @@
-
 #include "Message.h"
 
 Message::Message(int senderId, int recieverId, string messageBody)
@@ -10,7 +9,15 @@ Message::Message(int senderId, int recieverId, string messageBody)
 
 string Message::getMessageBody()
 {
-	return messageBody;
+	return string();
 }
 
+int Message::getRecieverId()
+{
+	return recieverId;
+}
 
+int Message::getSenderId()
+{
+	return senderId;
+}

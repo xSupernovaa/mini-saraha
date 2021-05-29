@@ -7,9 +7,7 @@ using namespace std;
 
 class Server
 {
-	
 
-	 
 	//Cache
 	
 	User* current_logged_user;
@@ -18,10 +16,9 @@ public:
 	static  vector<User> users;
 	static int userCount;
 
-
-	Server();
+	Server(); 
 	void addContact(int sourceId, int targetId);
-	void sendMessage(int sourceId, int targetId, string message);
+	void sendMessage(Message message);
 	void deleteLastMessage();
 	void viewMessages(int userId);
 	void registerUser();

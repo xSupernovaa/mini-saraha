@@ -5,11 +5,13 @@ using namespace std;
 class Message
 {
 private:
-		int senderId;
-		int recieverId;
-		string messageBody;
+	int senderId;
+	int recieverId;
+	string messageBody;
 
 public:
-		Message(int, int, string);
-		string getMessageBody();
+	Message(int senderId, int recieverId, string messageBody);
+	string getMessageBody();
+	int getRecieverId();
+	int getSenderId();
 };

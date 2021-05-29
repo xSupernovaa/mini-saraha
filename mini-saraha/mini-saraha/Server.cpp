@@ -7,7 +7,7 @@ vector<User> Server::users;
 int Server::userCount;
 
 /**Add the reciver user to sender user's contact list*/
-void addContact(int senderId, int recieverId)
+void Server::addContact(int senderId, int recieverId)
 {
 	User sender = *Server::findUser(senderId);
 	if (Server::idExists(recieverId))
@@ -17,22 +17,22 @@ void addContact(int senderId, int recieverId)
 }
 
 
-void sendMessage(int senderId, int recieverId, string message)
+void Server::sendMessage(Message newMessage)
 {
-	if (Server::idExists(senderId) && Server::idExists(recieverId))
+	if (Server::idExists(newMessage.getSenderId()) && Server::idExists(newMessage.getRecieverId()))
 	{
-		User reciever = *Server::findUser(recieverId);
-		reciever.sendMassage(senderId, recieverId, message);
+		User reciever = *Server::findUser(newMessage.getRecieverId());
+		reciever.recieveMessage(newMessage);
 	}
 	else
 		cout << "Sender or Reciver Id not found please check the ids and try again\n";
 }
-void deleteLastMessage()
+void Server::deleteLastMessage()
 {
 
 }
 
-void viewMessages(int senderId)
+void Server::viewMessages(int senderId)
 {
 	if (Server::idExists(senderId))
 	{
@@ -40,21 +40,21 @@ void viewMessages(int senderId)
 	}
 }
 
-void registerUser()
+void Server::registerUser()
 {
 
 }
 
 
-void login()
+void Server::login()
 {
 
 }
-void saveSession()
+void Server::saveSession()
 {
 
 }
-void loadSession()
+void Server::loadSession()
 {
 
 }
@@ -63,5 +63,4 @@ Server::~Server()
 {
 
 }
-
 
