@@ -28,5 +28,9 @@ public:
 	void searchUser();
 	void showSentMassages();
 	void showrecievedMassages();
+	int getID();
+	string getUsername();
+	string getPassword();
+
 };
 

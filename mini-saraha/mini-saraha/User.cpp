@@ -73,3 +73,18 @@ void User::showrecievedMassages()
 {
 	//retriving data from dataset 
 }
+
+int User::getID()
+{
+	return this->id;
+}
+
+string User::getUsername()
+{
+	return this->userName;
+}
+
+string User::getPassword()
+{
+	return this->password;
+}
