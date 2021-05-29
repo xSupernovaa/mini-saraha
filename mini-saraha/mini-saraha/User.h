@@ -5,7 +5,6 @@
 #include<deque>
 #include<stack>
 #include "Message.h"
-#include "Server.h"
 
 using namespace std;
 class User

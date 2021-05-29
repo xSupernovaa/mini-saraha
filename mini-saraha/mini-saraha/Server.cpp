@@ -9,7 +9,7 @@ int Server::userCount;
 FilesManager files;
 
 /**Add the reciver user to sender user's contact list*/
-void addContact(int senderId, int recieverId)
+void Server::addContact(int senderId, int recieverId)
 {
 	User sender = *Server::findUser(senderId);
 	if (Server::idExists(recieverId))
@@ -19,22 +19,21 @@ void addContact(int senderId, int recieverId)
 }
 
 
-void sendMessage(int senderId, int recieverId, string message)
+void Server::sendMessage(Message message)
 {
-	if (Server::idExists(senderId) && Server::idExists(recieverId))
+	if (Server::idExists(message.getSenderId()) && Server::idExists(message.getRecieverId()))
 	{
-		User reciever = *Server::findUser(recieverId);
-		reciever.sendMassage(senderId, recieverId, message);
+		User reciever = *Server::findUser(message.getRecieverId());
 	}
 	else
 		cout << "Sender or Reciver Id not found please check the ids and try again\n";
 }
-void deleteLastMessage()
+void Server::deleteLastMessage()
 {
 
 }
 
-void viewMessages(int senderId)
+void Server::viewMessages(int senderId)
 {
 	if (Server::idExists(senderId))
 	{
@@ -42,15 +41,15 @@ void viewMessages(int senderId)
 	}
 }
 
-void registerUser(string username, string password)
+void Server::registerUser(string username, string password)
 {
 	//To check if username is already exist or dosen't exist
 	bool _username = false;
 	//To check if password match with pattern or not
-	bool _password = fasle;
+	bool _password = false;
 
 	_username = validate_username_register(username);
-	_password = validate_password_register(password);
+	_password = validate_password_registration(password);
 	//I do more than (else if) to print to the user the specific problem of registration 
 	//Username is incorrect 
 	if (_username == false || _password == true)
@@ -60,16 +59,16 @@ void registerUser(string username, string password)
 	//password is incorrect
 	else if (_username == true || _password == false)
 	{
-		cout<<"Please enter a password with at least on upper case, one lower case, one digit, one special character, minimum eight in length"
+		cout << "Please enter a password with at least on upper case, one lower case, one digit, one special character, minimum eight in length";
 	}
 	//username and password is incorrect
 	else if (_username == false && _password == false)
 	{
 		cout << "Username and password incorrect" << endl;
 	}
-	if (username == true && password == true)
+	if (_username == true && _password == true)
 	{	
-		User new_user(userCounter++, username, name, password);
+		User new_user(userCount++, username, password);
 		files.add_new_user_instance_to_disc(new_user);
 		login(username, password);
 	}
@@ -78,7 +77,7 @@ void registerUser(string username, string password)
 	
 }
 
-bool validate_password_registration(string password)
+bool Server::validate_password_registration(string password)
 {
 	//This regex will enforce at least on upper case, one lower case, one digit, one special character, minimum eight in length
 	regex pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
@@ -91,10 +90,10 @@ bool validate_password_registration(string password)
 		return false;
 	}
 }
-bool validate_username_register(string username)
+bool Server::validate_username_register(string username)
 {
 	map<string, pair<string, int>> users = files.load_users_credintials_from_disc();
-	if (m1.count(username))
+	if (users.count(username))
 	{
 		//username already exist
 		return false;
@@ -106,15 +105,15 @@ bool validate_username_register(string username)
 	}
 }
 
-void login(string username, string password)
+void Server::login(string username, string password)
 {
 
 }
-void saveSession()
+void Server::saveSession()
 {
 
 }
-void loadSession()
+void Server::loadSession()
 {
 
 }

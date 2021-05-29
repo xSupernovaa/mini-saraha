@@ -21,10 +21,12 @@ public:
 	void sendMessage(Message message);
 	void deleteLastMessage();
 	void viewMessages(int userId);
-	void registerUser();
-	void login();
+	void registerUser(string username, string password);
+	void login(string username, string password);
 	void saveSession();
 	void loadSession();
+	bool validate_password_registration(string password);
+	bool validate_username_register(string username);
 	~Server();
 
 
