@@ -1,4 +1,5 @@
 #include "User.h"
+#include <assert.h>
 
 User::User(int id, string userName,string name, string password)
 {
@@ -13,6 +14,15 @@ User::User(int id, string userName,string name, string password)
 void User::sendMassage(int senderId, int recieverId, string meassage)
 {
 	//sending massage to another user in the server 
+	Message newMessage(senderId, recieverId, meassage);
+	if (!contacts.empty()) {
+		for (int contact = 0; contact < contacts.size(); contact++)
+		{
+			if (contacts[contact].id == recieverId)
+				this->contacts[contact].receivedMassages.push(newMessage); // add message to reciever's receivedMassages
+		}
+	}
+	this->sentMassages.push(newMessage);
 }
 
 //to add massages to favorites 
@@ -67,11 +77,23 @@ void User::searchUser()
 void User::showSentMassages()
 {
 	//retriving data from dataset 
+	assert(!sentMassages.empty());
+	while (!sentMassages.empty())
+	{
+		cout << sentMassages.top().getMessageBody() << endl;
+		sentMassages.pop();
+	}
 }
 
 void User::showrecievedMassages()
 {
 	//retriving data from dataset 
+	assert(!receivedMassages.empty());
+	while (!receivedMassages.empty())
+	{
+		cout << receivedMassages.top().getMessageBody() << endl;
+		receivedMassages.pop();
+	}
 }
 
 int User::getID()
