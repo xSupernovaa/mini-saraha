@@ -4,6 +4,7 @@ Bassel, 29 May
 
 - next commit will contain: 
      loading all user instances from disc to the server
+     
  ##Mario, 29 May
  - created registration function, function to validate password and function to check if the username is already exist or not
  - next commit: 
