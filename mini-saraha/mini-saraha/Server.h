@@ -22,7 +22,7 @@ public:
 	void sendMessage(Message message);
 	void deleteLastMessage();
 	void viewMessages(int userId);
-	void registerUser(string username, string password);
+	bool registerUser(string username, string password);
 	bool login(string username, string password);
 	void saveSession();
 	void loadSession();

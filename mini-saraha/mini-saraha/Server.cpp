@@ -41,7 +41,7 @@ void Server::viewMessages(int senderId)
 	}
 }
 
-void Server::registerUser(string username, string password)
+bool Server::registerUser(string username, string password)
 {
 	//To check if username is already exist or dosen't exist
 	bool _username = false;
@@ -55,22 +55,25 @@ void Server::registerUser(string username, string password)
 	if (_username == false || _password == true)
 	{
 		cout << "Username is already taken" << endl;
+		return false;
 	}
 	//password is incorrect
 	else if (_username == true || _password == false)
 	{
 		cout << "Please enter a password with at least on upper case, one lower case, one digit, one special character, minimum eight in length";
+		return false;
 	}
 	//username and password is incorrect
 	else if (_username == false && _password == false)
 	{
 		cout << "Username and password incorrect" << endl;
+		return false;
 	}
-	if (_username == true && _password == true)
+	else if (_username == true && _password == true)
 	{	
 		User new_user(userCount++, username, password);
 		files.add_new_user_instance_to_disc(new_user);
-		login(username, password);
+		return true;
 	}
 	
 	
@@ -92,10 +95,12 @@ bool Server::validate_password_registration(string password)
 }
 bool Server::validate_username_register(string username)
 {
+	regex pattern("^(?=.*?[a-z]|[A-Z]).{5,}$");
 	map<string, pair<string, int>> users = files.load_users_credintials_from_disc();
-	if (users.count(username))
+	if (users.count(username)&&regex_match(username,pattern))
 	{
-		//username already exist
+		//username already exist or not match with pattern
+		// Hazem : Show the user that he must enter a username consisting of letters and no less than five characters
 		return false;
 	}
 	else
@@ -109,6 +114,7 @@ bool Server::login(string username, string password)
 	map<string, pair<string, int>> users = files.load_users_credintials_from_disc();
 	if (users.count(username) && users[username].first == password)
 	{
+		current_logged_user = findUser(users[username].second);
 		return true;
 	}
 	else
