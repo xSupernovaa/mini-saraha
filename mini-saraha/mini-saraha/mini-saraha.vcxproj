@@ -144,12 +144,16 @@
     <ClCompile Include="mini-saraha.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="UserMenu.cpp" />
+    <ClCompile Include="WelcomeMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FilesManager.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="UserMenu.h" />
+    <ClInclude Include="WelcomeMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

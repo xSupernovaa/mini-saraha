@@ -10,11 +10,12 @@ class Server
 
 	//Cache
 	
-	User* current_logged_user;
+	
 	
 public:
 	static  vector<User> users;
 	static int userCount;
+	 User * current_logged_user;
 
 	Server(); 
 	void addContact(int sourceId, int targetId);
@@ -43,6 +44,7 @@ public:
 	 static bool idExists(int userID)
 	{
 		return (userID >= 0 && userID <= userCount);
+		
 	}
 
 };
