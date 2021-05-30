@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Server.h"
+
 #include "FilesManager.h"
 #include "User.h"
 #include <map>
@@ -10,7 +10,8 @@ int main()
 {
 
 
-	WelcomeMenu::welcome();
+	WelcomeMenu W; 
+	W.welcome();
 
 
 

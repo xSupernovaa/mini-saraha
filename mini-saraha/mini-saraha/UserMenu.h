@@ -1,10 +1,14 @@
 #pragma once
 #include "User.h"
+#include "Server.h"
 class UserMenu
 {
-	User* user;
+	User* userP;
+	Server* serverP;
 public:
-	
-	static void initial(); 
+	UserMenu(Server server);
+	 void initial(); 
+	 void viewMessages();
+
 };
 

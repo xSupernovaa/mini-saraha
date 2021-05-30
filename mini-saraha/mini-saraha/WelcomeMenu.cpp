@@ -3,9 +3,11 @@
 #include "Server.h"
 #include "UserMenu.h"
 using namespace std;
-//Server server;
+
 void WelcomeMenu::welcome()
 {
+
+   
     cout << "------WELCOME TO SARAHAH!------" << endl;
     cout << "What would you like to do ? " << endl;
     cout << "[1] Sign up " << endl;
@@ -28,7 +30,8 @@ void WelcomeMenu::welcome()
         break;
 
     default:
-        break;
+        cout << "invalid choice ,please try again " << endl;
+        welcome();
 
     }
 
@@ -44,7 +47,7 @@ void WelcomeMenu::sign_up()
     cout << "Enter Your Password " << endl;
     cin >> password;
     // REGISTER USER 
-    //server.registerUser(username, password);
+    server.registerUser(username, password);
 
 }
 
@@ -56,15 +59,14 @@ void WelcomeMenu::sign_in()
     cin >> username;
     cout << "Enter Your Password " << endl;
     cin >> password;
-    UserMenu::initial();
-  /* if (server.login(username, password))
+   if (server.login(username, password))
     {
-        UserMenu menu();
+        UserMenu menu(server);
     }
     else
     {
         cout << "Invalid email or password, please try again!" << endl;
-    }*/
+    }
 
 }
 

@@ -1,9 +1,11 @@
 #pragma once
+#include "Server.h"
 class WelcomeMenu
 {
 public:
-	static void welcome();
-	static void sign_in();
-	static void sign_up();
+	Server server;
+	 void welcome();
+	 void sign_in();
+	 void sign_up();
 };
 

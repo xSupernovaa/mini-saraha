@@ -125,7 +125,10 @@ void Server::loadSession()
 {
 
 }
+Server::Server()
+{
 
+}
 Server::~Server()
 {
 

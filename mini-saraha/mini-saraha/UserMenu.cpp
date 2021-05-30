@@ -3,9 +3,13 @@
 #include "Server.h"
 using namespace std;
 
+UserMenu::UserMenu(Server server) {
+    serverP = &server;
+    userP = server.current_logged_user ;
+}
+
 void UserMenu::initial()
 {
-    
     cout << "------WELCOME TO YOUR ACCOUNT !" << endl;
     cout << "[1] My messages " << endl;
     cout << "[2] Sent messages " << endl;
@@ -44,4 +48,18 @@ void UserMenu::initial()
 
     }
     
+}
+
+void UserMenu::viewMessages( ) {
+
+    userP->showrecievedMassages(); 
+    cout << "----------------------" << endl;
+    cout << "[1] Add Message To Favourite " << endl;
+    cout << "[2] Back To Main Menu " << endl;
+    int userChoice;    cin >> userChoice;
+    switch (userChoice) {
+    case 1:
+        cout << "Choose Message :"; cin >> userChoice; 
+      
+    }
 }
