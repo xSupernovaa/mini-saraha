@@ -104,10 +104,18 @@ bool Server::validate_username_register(string username)
 		return true;
 	}
 }
-
-void Server::login(string username, string password)
+bool Server::login(string username, string password)
 {
-
+	map<string, pair<string, int>> users = files.load_users_credintials_from_disc();
+	if (users.count(username) && users[username].first == password)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	
 }
 void Server::saveSession()
 {
