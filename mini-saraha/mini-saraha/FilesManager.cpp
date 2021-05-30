@@ -55,7 +55,7 @@ string FilesManager::make_new_user_folder(string folder_name)
 }
 
 
-// IMPORTANT: it is assumed that the username is not already in the database, delete this comment when it's done 
+
 void FilesManager::add_new_user_credintials_to_disc(string username, string password, int id)
 {
 	filesWriter.open("data/user_credintials.txt", ofstream::app);
