@@ -93,13 +93,13 @@ bool Server::registerUser(string username, string password)
 	_password = validate_password_registration(password);
 	//I do more than (else if) to print to the user the specific problem of registration 
 	//Username is incorrect 
-	if (_username == false || _password == true)
+	if (_username == false && _password == true)
 	{
-		cout << "Username is already taken" << endl;
+		cout << "Username is already taken, enter a username with at least 5 characters" << endl;
 		return false;
 	}
 	//password is incorrect
-	else if (_username == true || _password == false)
+	else if (_username == true && _password == false)
 	{
 		cout << "Please enter a password with at least on upper case, one lower case, one digit, one special character, minimum eight in length";
 		return false;
@@ -137,9 +137,10 @@ bool Server::validate_password_registration(string password)
 bool Server::validate_username_register(string username)
 {
 	regex pattern("^(?=.*?[a-z]|[A-Z]).{5,}$");
-
 	map<string, pair<string, int>> users = files.load_users_credintials_from_disc();
-	if (users.count(username)&&regex_match(username,pattern))
+	bool username_exist = users.count(username);
+	bool password_match = regex_match(username, pattern);
+	if (username_exist==true||password_match==false)
 	{
 		//username already exist or not match with pattern
 		// Hazem : Show the user that he must enter a username consisting of letters and no less than five characters
