@@ -13,7 +13,7 @@ private:
 	static  vector<User> users;
 	static int userCount;
 	User* current_logged_user;
-	//map<string, pair<string, int>> users_credentials;
+	map<string, pair<string, int>> users_credentials;
 
 	//Cache
 	/*cached data are cleared on each new login

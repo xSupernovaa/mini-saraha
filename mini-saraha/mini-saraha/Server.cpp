@@ -11,7 +11,7 @@ FilesManager files;
 
 Server::Server()
 {
-	//users_credentials = files.load_users_credintials_from_disc();
+	users_credentials = files.load_users_credintials_from_disc();
 	current_logged_user = NULL;
 }
 
@@ -114,6 +114,7 @@ bool Server::registerUser(string username, string password)
 	{	
 		User new_user(userCount++, username, password);
 		files.add_new_user_instance_to_disc(new_user);
+		users_credentials = files.load_users_credintials_from_disc();
 		return true;
 	}
 	
@@ -137,8 +138,7 @@ bool Server::validate_password_registration(string password)
 bool Server::validate_username_register(string username)
 {
 	regex pattern("^(?=.*?[a-z]|[A-Z]).{5,}$");
-	map<string, pair<string, int>> users = files.load_users_credintials_from_disc();
-	bool username_exist = users.count(username);
+	bool username_exist = users_credentials.count(username);
 	bool password_match = regex_match(username, pattern);
 	if (username_exist==true||password_match==false)
 	{
@@ -154,10 +154,9 @@ bool Server::validate_username_register(string username)
 }
 bool Server::login(string username, string password)
 {
-	map<string, pair<string, int>> users = files.load_users_credintials_from_disc();
-	if (users.count(username) && users[username].first == password)
+	if (users_credentials.count(username) && users_credentials[username].first == password)
 	{
-		current_logged_user = findUser(users[username].second);
+		current_logged_user = findUser(users_credentials[username].second);
 		return true;
 	}
 	else
