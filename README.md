@@ -12,5 +12,8 @@ Bassel, 29 May
 
 
 Ayman, 31 May
-    • Finished server functions
-    • Added cache variables for storage
+    â€¢ Finished server functions
+    â€¢ Added cache variables for storage
+    
+Mario, 31 May
+     -Finished Registration and login functions and their validations
