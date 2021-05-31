@@ -5,7 +5,7 @@ using namespace std;
 
 UserMenu::UserMenu(Server server) {
     serverP = &server;
-    userP = server.current_logged_user ;
+    userP = server.get_Current_Logged_User();
 }
 
 void UserMenu::initial()

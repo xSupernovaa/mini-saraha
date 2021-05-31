@@ -9,3 +9,8 @@ Bassel, 29 May
  - created registration function, function to validate password and function to check if the username is already exist or not
  - next commit: 
      login function
+
+
+Ayman, 31 May
+    • Finished server functions
+    • Added cache variables for storage

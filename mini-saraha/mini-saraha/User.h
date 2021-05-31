@@ -32,5 +32,6 @@ public:
 	int getID();
 	string getUsername();
 	string getPassword();
+	Message getLastMessage();
 };
 

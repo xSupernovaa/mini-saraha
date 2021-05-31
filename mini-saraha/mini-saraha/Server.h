@@ -8,26 +8,39 @@ using namespace std;
 class Server
 {
 
-	//Cache
-	
-	
-	
-public:
+private:
+
 	static  vector<User> users;
 	static int userCount;
-	 User * current_logged_user;
+	User* current_logged_user;
+	//map<string, pair<string, int>> users_credentials;
+
+	//Cache
+	/*cached data are cleared on each new login
+	 and only contain data created on that session only*/
+	/* there was no need for recieved messages cache since
+	activity is only made by the logged in user*/
+	stack<Message> sent_Messages_Cache;
+	deque<Message> favorite_Messages_Cache;
+	vector<int> added_Contacts_Cache;
+	
+public:
+	
 
 	Server(); 
-	void addContact(int sourceId, int targetId);
+	void addContact(int targetId);
 	void sendMessage(Message message);
 	void deleteLastMessage();
 	void viewMessages(int userId);
+	void addFavoriteMessage(Message message);
+	void delete_Last_Favorite_Message(Message message);
 	bool registerUser(string username, string password);
 	bool login(string username, string password);
 	void saveSession();
 	void loadSession();
 	bool validate_password_registration(string password);
 	bool validate_username_register(string username);
+	User* get_Current_Logged_User();
 	~Server();
 
 

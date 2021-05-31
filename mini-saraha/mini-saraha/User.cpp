@@ -105,3 +105,10 @@ string User::getPassword()
 {
 	return this->password;
 }
+
+Message User::getLastMessage()
+{
+	if (!sentMessages.empty())
+		return sentMessages.top();
+	
+}
