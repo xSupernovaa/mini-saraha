@@ -55,7 +55,7 @@ void UserMenu::initial()
 
 void UserMenu::viewRecivedMessages( ) {
 
-    userP->showrecievedMassages(); 
+    serverP->viewMessages(userP->getID()); 
     cout << "----------------------" << endl;
     cout << "[1] Add Message To Favourite " << endl;
     cout << "[2] Back To Main Menu " << endl;
@@ -78,15 +78,16 @@ void UserMenu::viewRecivedMessages( ) {
 
 
 void UserMenu::viewSentMessages() {
-
-    userP->showSentMassages();
+    //display sent messages 
+   // serverP.
+    // 
     cout << "----------------------" << endl;
     cout << "[1] Undo last Message " << endl;
     cout << "[2] Back To Main Menu " << endl;
     int userChoice;    cin >> userChoice;
     switch (userChoice) {
     case 1:
-        userP->undoLastMassage();
+        serverP->deleteLastMessage();
         break;
     case 2:
         return; 
@@ -100,7 +101,7 @@ void UserMenu::viewSentMessages() {
 
 void UserMenu::viewFavouriteMessages() {
 
-  //  userP->viewFavouriteMessages() ;   Not Created Yet  
+  //    ->viewFavouriteMessages() ;   Not Created Yet  
     cout << "----------------------" << endl;
     cout << "[1] Delete Last Favourite Message " << endl;
     cout << "[2] Back To Main Menu " << endl;
@@ -109,7 +110,7 @@ void UserMenu::viewFavouriteMessages() {
     int userChoice;    cin >> userChoice;
     switch (userChoice) {
     case 1:
-        userP->deleteLastFavorite();
+        serverP->deleteLastMessage();
         break;
     case 2:
         return;
@@ -138,7 +139,7 @@ void UserMenu::usersSearch() {
         switch (userChoice)
         {
         case 1 :
-            userP->addContact(userS->getID());
+            serverP->addContact(userS->getID()); 
             break;
         case 2:
             return; 
