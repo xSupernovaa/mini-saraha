@@ -13,11 +13,13 @@ User::User(int id, string userName, string password)
 void User::sendMessage(Message newMessage)
 {
 	//waiting ayman to explain  
+	sentMessages.push(newMessage);
 }
 
 void User::recieveMessage(Message message)
 {
 	// waiting for bassel to add the function for storing massages 
+	receivedMessages.push(message);
 }
 
 //to add massages to favorites 
@@ -63,10 +65,10 @@ void User::undoLastMassage()
 		sentMessages.pop();
 	}
 }
-
-void User::searchUser()
+// search for contact in my contacts
+int User::searchContact(int id)
 {
-	//searching for user in server 
+	return contacts[id];
 }
 
 void User::showSentMassages()

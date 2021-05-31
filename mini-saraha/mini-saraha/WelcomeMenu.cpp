@@ -47,8 +47,12 @@ void WelcomeMenu::sign_up()
     cout << "Enter Your Password " << endl;
     cin >> password;
     // REGISTER USER 
-    server.registerUser(username, password);
-
+    bool flag = server.registerUser(username, password);
+    if (!flag) {
+        system("CLS");
+        sign_up();
+    }
+    sign_in();
 }
 
 void WelcomeMenu::sign_in()
