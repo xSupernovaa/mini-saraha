@@ -10,47 +10,50 @@ UserMenu::UserMenu(Server server) {
 
 void UserMenu::initial()
 {
-    cout << "------WELCOME TO YOUR ACCOUNT !" << endl;
-    cout << "[1] My messages " << endl;
-    cout << "[2] Sent messages " << endl;
-    cout << "[3] favorites " << endl;
-    cout << "[4] search  " << endl;
-    cout << "[5] Contacts  " << endl;
-    cout << "[6] log out   " << endl;
+    while (true)
+    {
+        cout << "------WELCOME TO YOUR ACCOUNT " << endl;
+        cout << "[1] My messages " << endl;
+        cout << "[2] Sent messages " << endl;
+        cout << "[3] favorites " << endl;
+        cout << "[4] search  " << endl;
+        cout << "[5] Contacts  " << endl;
+        cout << "[6] log out   " << endl;
 
-    cout << "------------------------------- " << endl;
-    cout << "Your Choice : ";
-    int userChoice;    cin >> userChoice;
-    switch (userChoice) {
-    case 1:
-        
-        break;
+        cout << "------------------------------- " << endl;
+        cout << "Your Choice : ";
+        int userChoice;    cin >> userChoice;
+        switch (userChoice) {
+        case 1:
+            viewRecivedMessages();
+            break;
 
-    case 2:
-       
-        break;
+        case 2:
+            viewSentMessages();
+            break;
 
-    case 3:
+        case 3:
+            viewFavouriteMessages();
+            break;
+        case 4:
+            usersSearch();
+            break;
+        case 5:
 
-        break;
-    case 4:
+            break;
+        case 6:
+            return;
 
-        break;
-    case 5:
+        default:
+            break;
 
-        break;
-    case 6:
-
-        break;
-
-    default:
-        break;
-
+        }
     }
-    
 }
+    
 
-void UserMenu::viewMessages( ) {
+
+void UserMenu::viewRecivedMessages( ) {
 
     userP->showrecievedMassages(); 
     cout << "----------------------" << endl;
@@ -60,6 +63,99 @@ void UserMenu::viewMessages( ) {
     switch (userChoice) {
     case 1:
         cout << "Choose Message :"; cin >> userChoice; 
-      
+    //    userP->addToFavorite(userP->getLastMessage); 
+    //    waiting for bavly changes 
+        break;
+    case 2:
+        return;
+
+    default:
+        break;
+    
+
     }
+}
+
+
+void UserMenu::viewSentMessages() {
+
+    userP->showSentMassages();
+    cout << "----------------------" << endl;
+    cout << "[1] Undo last Message " << endl;
+    cout << "[2] Back To Main Menu " << endl;
+    int userChoice;    cin >> userChoice;
+    switch (userChoice) {
+    case 1:
+        userP->undoLastMassage();
+        break;
+    case 2:
+        return; 
+    default:
+        break;
+
+
+    }
+}
+
+
+void UserMenu::viewFavouriteMessages() {
+
+  //  userP->viewFavouriteMessages() ;   Not Created Yet  
+    cout << "----------------------" << endl;
+    cout << "[1] Delete Last Favourite Message " << endl;
+    cout << "[2] Back To Main Menu " << endl;
+    cout << "------------------------------- " << endl;
+    cout << "Your Choice : ";
+    int userChoice;    cin >> userChoice;
+    switch (userChoice) {
+    case 1:
+        userP->deleteLastFavorite();
+        break;
+    case 2:
+        return;
+
+    default:
+        break;
+
+
+    }
+}
+
+void UserMenu::usersSearch() {
+
+    int user_id; 
+    cout << "------SEARCH-------" << endl;
+    cout << "Enter user id";   cin >> user_id; 
+    User *userS = serverP->findUser(user_id);
+    if (userS != nullptr)
+    {
+        displayUserData(*userS);
+        cout << "[1] Add to Conatcts :" << endl;
+        cout << "[2] Back To Main Menu :" << endl;
+        cout << "------------------------------- " << endl;
+        cout << "Your Choice : ";
+        int userChoice;    cin >> userChoice;
+        switch (userChoice)
+        {
+        case 1 :
+            userP->addContact(userS->getID());
+            break;
+        case 2:
+            return; 
+
+        default:
+            break;
+        }
+
+    }
+   
+}
+
+
+void UserMenu::displayUserData(User  user) {
+    cout << "------------------------" << endl;
+    cout << "Username : " << user.getUsername(); 
+    cout << "id : " << user.getID();
+    cout << "------------------------" << endl;
+
 }

@@ -8,7 +8,10 @@ class UserMenu
 public:
 	UserMenu(Server server);
 	 void initial(); 
-	 void viewMessages();
-
+	 void viewRecivedMessages();
+	 void viewSentMessages();
+	 void viewFavouriteMessages();
+	 void usersSearch();
+	 void displayUserData(User user);
 };
 

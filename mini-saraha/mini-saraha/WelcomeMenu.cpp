@@ -7,52 +7,52 @@ using namespace std;
 void WelcomeMenu::welcome()
 {
 
-   
-    cout << "------WELCOME TO SARAHAH!------" << endl;
-    cout << "What would you like to do ? " << endl;
-    cout << "[1] Sign up " << endl;
-    cout << "[2] Sign in " << endl;
-    cout << "[3] Exit " << endl;
-    cout << "------------------------------- " << endl;
-    cout << "Your Choice : ";
-    int userChoice;    cin >> userChoice;
-    switch (userChoice) {
+        server.loadSession();
 
-    case 1:
-       sign_up();
-        break;
+        while (true)
+        {
+            cout << endl;
+            cout << "------WELCOME TO SARAHAH!------" << endl;
+            cout << "What would you like to do ? " << endl;
+            cout << "[1] Sign up " << endl;
+            cout << "[2] Sign in " << endl;
+            cout << "[3] Exit " << endl;
+            cout << "------------------------------- " << endl;
+            cout << "Your Choice : ";
+            int userChoice;    cin >> userChoice;
+            switch (userChoice) {
 
-    case 2:
-        sign_in();
-        break;
+            case 1:
+                sign_up();
+                break;
 
-    case 3:
-        break;
+            case 2:
+                sign_in();
+                break;
 
-    default:
-        cout << "invalid choice ,please try again " << endl;
-        welcome();
+            case 3:
+                return;
 
-    }
+            default:
 
+                cout << "invalid choice ,please try again " << endl;
+            }
 
+        }
+    
 }
 
 void WelcomeMenu::sign_up()
 {
     string username, password;
     cout << "----------  Sign up ------------ " << endl;
-    cout << "Enter Your Name " << endl;
+    cout << "Enter Your User Name " << endl;
     cin >> username;
     cout << "Enter Your Password " << endl;
     cin >> password;
-    // REGISTER USER 
-    bool flag = server.registerUser(username, password);
-    if (!flag) {
-        system("CLS");
-        sign_up();
-    }
-    sign_in();
+   
+    server.registerUser(username, password);
+    
 }
 
 void WelcomeMenu::sign_in()
@@ -63,12 +63,16 @@ void WelcomeMenu::sign_in()
     cin >> username;
     cout << "Enter Your Password " << endl;
     cin >> password;
+    
+    
    if (server.login(username, password))
     {
-        UserMenu menu(server);
+     UserMenu menu(server) ;
+      menu.initial();
     }
     else
     {
+       cout << endl; 
         cout << "Invalid email or password, please try again!" << endl;
     }
 
