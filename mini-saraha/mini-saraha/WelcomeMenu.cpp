@@ -6,11 +6,14 @@ using namespace std;
 
 void WelcomeMenu::welcome()
 {
+
+
         server.loadSession();
+       
         while (true)
         {
-            cout << endl;
-            cout << "------WELCOME TO SARAHAH!------" << endl;
+            system("CLS");
+            cout << "------WELCOME TO SARAHAH!------ " << endl;
             cout << "What would you like to do ? " << endl;
             cout << "[1] Sign up " << endl;
             cout << "[2] Sign in " << endl;
@@ -21,13 +24,14 @@ void WelcomeMenu::welcome()
             switch (userChoice) {
 
             case 1:
-                sign_up();
                 system("CLS");
+
+                sign_up();
                 break;
 
             case 2:
-                sign_in();
                 system("CLS");
+                sign_in();
                 break;
 
             case 3:
@@ -55,11 +59,12 @@ void WelcomeMenu::sign_up()
     
 }
 
+
 void WelcomeMenu::sign_in()
 {
     string username, password;
     cout << "----------  Sign in  ------------ " << endl;
-    cout << "Enter Your Name " << endl;
+    cout << "Enter Your Username " << endl;
     cin >> username;
     cout << "Enter Your Password " << endl;
     cin >> password;
@@ -67,6 +72,7 @@ void WelcomeMenu::sign_in()
     
    if (server.login(username, password))
     {
+
      UserMenu menu(server) ;
       menu.initial();
     }

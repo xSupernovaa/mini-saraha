@@ -153,3 +153,21 @@ Message User::getLastMessage()
 		return sentMessages.top();
 }
 
+bool User::foundMessages()
+{
+	return receivedMessages.size();
+}
+
+bool User::foundSentMessages()
+{
+	return sentMessages.size();
+}
+
+bool User::foundFavouriteMessages()
+{
+	return favoriteMessages.size();
+}
+bool User::foundContacts()
+{
+	return contacts.size();
+}

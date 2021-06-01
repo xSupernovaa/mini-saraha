@@ -33,6 +33,10 @@ public:
 	void showrecievedMassages();
 	void showfavoriteMassages();
 	int getID();
+	bool foundMessages();
+	bool foundSentMessages();
+	bool foundFavouriteMessages();
+	bool foundContacts(); 
 	string getUsername();
 	string getPassword();
 	Message getLastMessage();

@@ -13,6 +13,9 @@ public:
 	 void viewFavouriteMessages();
 	 void usersSearch();
 	 void displayUserData(User user);
+	 void viewContacts(); 
+	 void sendMessage(User user);
+	 void selectContact();
 
 };
 
