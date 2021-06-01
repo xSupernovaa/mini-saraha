@@ -4,21 +4,22 @@
 #include "User.h"
 #include <map>
 #include "WelcomeMenu.h"
-
+#include "FilesManager.h"
 using namespace std;
 int main()
 {
 
+	FilesManager fmgr;
+	User user = fmgr.load_user_instance_from_disc(0);
 
-	WelcomeMenu W; 
+	user.showContacts();
+	user.showSentMassages();
+	user.showrecievedMassages();
 
-	W.welcome();
 
 
+	//WelcomeMenu W;
+	//W.welcome();
 
-	/*User user(1,"bavlly", "1234");
-	FilesManager file;
-	map<string, pair<string, int>>  ret = file.load_users_credintials_from_disc();
-	cout << ret["bavlly"].second;*/
 }
 

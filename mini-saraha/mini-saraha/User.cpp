@@ -10,6 +10,25 @@ User::User(int id, string userName, string password)
 	//then store the whole user in the files from server class 
 }
 
+
+User::User(int id, string userName, string password, stack<Message> sentMessages,
+	stack<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts)
+{
+	this->id = id;
+	this->userName = userName;
+	this->password = password;
+	this->sentMessages = sentMessages;
+	this->receivedMessages = receivedMessages;
+	this->favoriteMessages = favoriteMessages;
+	this->contacts = contacts;
+
+}
+
+
+
+
+
+
 void User::sendMessage(Message newMessage)
 {
 	//waiting ayman to explain  
@@ -114,3 +133,4 @@ Message User::getLastMessage()
 		return sentMessages.top();
 	
 }
+

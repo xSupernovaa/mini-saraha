@@ -7,9 +7,11 @@ Message::Message(int senderId, int recieverId, string messageBody)
 	this->messageBody = messageBody;
 }
 
+
+
 string Message::getMessageBody()
 {
-	return string();
+	return messageBody;
 }
 
 int Message::getRecieverId()

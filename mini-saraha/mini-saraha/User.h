@@ -19,6 +19,8 @@ private:
 	deque<Message> favoriteMessages;
 public:
 	User(int id, string userName, string password);
+	User(int id, string userName, string password, stack<Message> sentMessages,
+		stack<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts);
 	void sendMessage(Message message);
 	void recieveMessage(Message message);
 	void addToFavorite(Message message);
