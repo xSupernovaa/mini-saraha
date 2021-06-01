@@ -13,6 +13,7 @@ Server::Server()
 {
 	users_credentials = files.load_users_credintials_from_disc();
 	current_logged_user = NULL;
+	userCount = users_credentials.size();
 }
 
 /**Add the reciver user to sender user's contact list*/
@@ -172,7 +173,10 @@ void Server::saveSession()
 }
 void Server::loadSession()
 {
-
+	for (int i = 0; i < userCount; i++) {
+       users.push_back(files.load_user_instance_from_disc(i));
+	}
+	
 }
 
 

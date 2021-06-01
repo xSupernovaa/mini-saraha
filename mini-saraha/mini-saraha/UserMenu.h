@@ -13,5 +13,6 @@ public:
 	 void viewFavouriteMessages();
 	 void usersSearch();
 	 void displayUserData(User user);
+
 };
 

@@ -31,6 +31,7 @@ public:
 	int  searchContact(int id);
 	void showSentMassages();
 	void showrecievedMassages();
+	void showfavoriteMassages();
 	int getID();
 	string getUsername();
 	string getPassword();

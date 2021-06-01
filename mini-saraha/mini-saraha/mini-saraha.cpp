@@ -8,18 +8,15 @@
 using namespace std;
 int main()
 {
-
-	FilesManager fmgr;
+	/*FilesManager fmgr;
 	User user = fmgr.load_user_instance_from_disc(0);
 
 	user.showContacts();
 	user.showSentMassages();
-	user.showrecievedMassages();
+	user.showrecievedMassages();*/
 
-
-
-	//WelcomeMenu W;
-	//W.welcome();
+	WelcomeMenu W;
+    W.welcome();
 
 }
 

@@ -10,8 +10,10 @@ UserMenu::UserMenu(Server server) {
 
 void UserMenu::initial()
 {
+
     while (true)
     {
+        system("CLS");
         cout << "------WELCOME TO YOUR ACCOUNT " << endl;
         cout << "[1] My messages " << endl;
         cout << "[2] Sent messages " << endl;
@@ -160,3 +162,4 @@ void UserMenu::displayUserData(User  user) {
     cout << "------------------------" << endl;
 
 }
+

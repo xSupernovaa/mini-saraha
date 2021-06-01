@@ -1,13 +1,11 @@
 #include "User.h"
-#include <assert.h>
 
 User::User(int id, string userName, string password)
 {
 	this->id = id;
 	this->userName = userName;
 	this->password = password;
-
-	//then store the whole user in the files from server class 
+ 
 }
 
 
@@ -21,7 +19,6 @@ User::User(int id, string userName, string password, stack<Message> sentMessages
 	this->receivedMessages = receivedMessages;
 	this->favoriteMessages = favoriteMessages;
 	this->contacts = contacts;
-
 }
 
 
@@ -53,7 +50,7 @@ void User::addToFavorite(Message message)
 void User::addContact(int contactId)
 {
 	//retrive data then .. 
-	this->contacts.push_back(contactId);
+	contacts.push_back(contactId);
 	//or we could add it to file directly ..
 }
 
@@ -92,23 +89,46 @@ int User::searchContact(int id)
 
 void User::showSentMassages()
 {
+	if (sentMessages.empty()) {
+		cout << "You don't have any messages\n";
+		return;
+	}
 	//retriving data from dataset 
-	assert(!sentMessages.empty());
-	while (!sentMessages.empty())
+	stack<Message> showedMessages = sentMessages;
+	while (!showedMessages.empty())
 	{
-		cout << sentMessages.top().getMessageBody() << endl;
-		sentMessages.pop();
+		cout << showedMessages.top().getMessageBody() << endl;
+		showedMessages.pop();
 	}
 }
 
 void User::showrecievedMassages()
 {
+	if (receivedMessages.empty()) {
+		cout << "You don't have any messages\n";
+		return;
+	}
+	stack<Message> showedMessages = receivedMessages;
 	//retriving data from dataset 
-	assert(!receivedMessages.empty());
-	while (!receivedMessages.empty())
+	while (!showedMessages.empty())
 	{
-		cout << receivedMessages.top().getMessageBody() << endl;
-		receivedMessages.pop();
+		cout << showedMessages.top().getMessageBody() << endl;
+		showedMessages.pop();
+	}
+}
+
+void User::showfavoriteMassages()
+{
+	if (favoriteMessages.empty()) {
+		cout << "You don't have any messages\n";
+		return;
+	}
+	//retriving data from dataset 
+	deque<Message> showedMessages = favoriteMessages;
+	while (!showedMessages.empty())
+	{
+		cout << showedMessages.back().getMessageBody() << endl;
+		showedMessages.pop_back();
 	}
 }
 
@@ -131,6 +151,5 @@ Message User::getLastMessage()
 {
 	if (!sentMessages.empty())
 		return sentMessages.top();
-	
 }
 

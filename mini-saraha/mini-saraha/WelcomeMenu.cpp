@@ -6,9 +6,7 @@ using namespace std;
 
 void WelcomeMenu::welcome()
 {
-
         server.loadSession();
-
         while (true)
         {
             cout << endl;
@@ -24,10 +22,12 @@ void WelcomeMenu::welcome()
 
             case 1:
                 sign_up();
+                system("CLS");
                 break;
 
             case 2:
                 sign_in();
+                system("CLS");
                 break;
 
             case 3:
