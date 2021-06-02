@@ -251,3 +251,75 @@ vector<string> FilesManager:: load_user_basic_data_from_disc(string basic_data_f
 
 
 }
+
+void FilesManager::add_user_data_to_disk(User new_user)
+{
+	for (int recievedMessages = 0; recievedMessages < new_user.getRecievedMessages().size(); recievedMessages++)
+	{
+		filesWriter.open("received_messages.txt", ofstream::app);
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << new_user.getRecievedMessages().front().getSenderId() << " " <<
+				new_user.getRecievedMessages().front().getRecieverId() << " " <<
+				new_user.getRecievedMessages().front().getMessageBody() << endl;
+
+			new_user.getRecievedMessages().pop_back();
+
+		}
+		filesWriter.clear();
+		filesWriter.close();
+	}
+
+	for (int sentMessages = 0; sentMessages < new_user.getSentMessages().size(); sentMessages++)
+	{
+		filesWriter.open("sent_messages.txt", ofstream::app);
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << new_user.getSentMessages().front().getSenderId() << " " <<
+				new_user.getSentMessages().front().getRecieverId() << " " <<
+				new_user.getSentMessages().front().getMessageBody() << endl;
+
+			new_user.getSentMessages().pop();
+
+		}
+		filesWriter.clear();
+		filesWriter.close();
+	}
+	for (int favoriteMessages = 0; favoriteMessages < new_user.getFavoriteMessages().size(); favoriteMessages++)
+	{
+		filesWriter.open("favorite_messages.txt", ofstream::app);
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << new_user.getFavoriteMessages().front().getSenderId() << " " <<
+				new_user.getFavoriteMessages().front().getRecieverId() << " " <<
+				new_user.getFavoriteMessages().front().getMessageBody() << endl;
+
+			new_user.getFavoriteMessages().pop_back();
+
+		}
+		filesWriter.clear();
+		filesWriter.close();
+	}
+
+	for (int contacts = 0; contacts < new_user.getContacts().size(); contacts++)
+	{
+		filesWriter.open("contacts.txt", ofstream::app);
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << new_user.getContacts().front() << endl;
+				
+
+			new_user.getContacts().pop_back();
+
+		}
+		filesWriter.clear();
+		filesWriter.close();
+	}
+
+
+
+}

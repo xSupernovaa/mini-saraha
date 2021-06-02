@@ -49,6 +49,7 @@ void UserMenu::initial()
             break;
 
         case 6:
+            //calling saveSession
             return;
 
         default:

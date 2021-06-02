@@ -41,5 +41,11 @@ public:
 	string getPassword();
 	Message getLastMessage();
 	Message getReceivedMessages(int index);
+	vector<int> getContacts();
+	queue<Message> getSentMessages();
+	deque<Message> getRecievedMessages();
+	deque<Message> getFavoriteMessages();
+
+
 };
 

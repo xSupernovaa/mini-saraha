@@ -176,3 +176,21 @@ bool User::foundContacts()
 {
 	return contacts.size();
 }
+vector<int> User::getContacts()
+{
+	return contacts;
+}
+queue<Message> User::getSentMessages()
+{
+	return sentMessages;
+}
+
+deque<Message> User::getRecievedMessages()
+{
+	
+	return receivedMessages;
+}
+deque<Message> User::getFavoriteMessages()
+{
+	return favoriteMessages;
+}

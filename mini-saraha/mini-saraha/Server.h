@@ -37,7 +37,7 @@ public:
 	void delete_Last_Favorite_Message(Message message);
 	bool registerUser(string username, string password);
 	bool login(string username, string password);
-	void saveSession();
+	void saveSession(User current_user);
 	void loadSession();
 	bool validate_password_registration(string password);
 	bool validate_username_register(string username);
