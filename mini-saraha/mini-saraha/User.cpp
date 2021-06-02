@@ -10,7 +10,7 @@ User::User(int id, string userName, string password)
 
 
 User::User(int id, string userName, string password, queue<Message> sentMessages,
-	queue<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts)
+	deque<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts)
 {
 	this->id = id;
 	this->userName = userName;
@@ -35,7 +35,7 @@ void User::sendMessage(Message newMessage)
 void User::recieveMessage(Message message)
 {
 	// waiting for bassel to add the function for storing massages 
-	receivedMessages.push(message);
+	receivedMessages.push_back(message);
 }
 
 //to add massages to favorites 
@@ -109,12 +109,12 @@ void User::showrecievedMassages()
 		cout << "You don't have any messages\n";
 		return;
 	}
-	queue<Message> showedMessages = receivedMessages;
+	deque<Message> showedMessages = receivedMessages;
 	//retriving data from dataset 
 	while (!showedMessages.empty())
 	{
 		cout << showedMessages.front().getMessageBody() << endl;
-		showedMessages.pop();
+		showedMessages.pop_back();
 	}
 }
 
@@ -154,6 +154,11 @@ Message User::getLastMessage()
 		return sentMessages.front();
 }
 
+Message User::getReceivedMessages(int index)
+{
+	return receivedMessages[index];
+}
+
 bool User::foundMessages()
 {
 	return receivedMessages.size();
@@ -171,4 +176,22 @@ bool User::foundFavouriteMessages()
 bool User::foundContacts()
 {
 	return contacts.size();
+}
+vector<int> User::getContacts()
+{
+	return contacts;
+}
+queue<Message> User::getSentMessages()
+{
+	return sentMessages;
+}
+
+deque<Message> User::getRecievedMessages()
+{
+	
+	return receivedMessages;
+}
+deque<Message> User::getFavoriteMessages()
+{
+	return favoriteMessages;
 }

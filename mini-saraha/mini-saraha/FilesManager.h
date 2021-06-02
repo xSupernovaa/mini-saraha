@@ -14,6 +14,7 @@ public:
 	    map<string, pair<string, int>> load_users_credintials_from_disc();
 		void add_new_user_instance_to_disc(User new_user);
 		User load_user_instance_from_disc(int user_id);
+		void add_user_data_to_disk(User user);
 
 private:
 	ofstream filesWriter;
@@ -24,7 +25,7 @@ private:
 	void create_new_user_file(string file_path);
 	vector<Message> load_user_messages_from_disc(string user_folder_path);
 	vector<int> load_user_contants_from_disc(string user_folder_path);
-	queue<Message> vector_to_stack(vector<Message> messages_vector);
+	queue<Message> vector_to_queue(vector<Message> messages_vector);
 	deque<Message> vector_to_deque(vector<Message> messages_vector);
 	vector<string> load_user_basic_data_from_disc(string basic_data_file);
 };

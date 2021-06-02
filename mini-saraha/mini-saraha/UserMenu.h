@@ -8,7 +8,8 @@ class UserMenu
 public:
 	UserMenu(Server &server);
 	 void initial(); 
-	 void viewRecivedMessages();
+	 void viewRecivedMessages(); 
+	 void addToFavorite(int index);
 	 void viewSentMessages();
 	 void viewFavouriteMessages();
 	 void usersSearch();
@@ -16,6 +17,7 @@ public:
 	 void viewContacts(); 
 	 void sendMessage(User user);
 	 void selectContact();
+	
 
 };
 

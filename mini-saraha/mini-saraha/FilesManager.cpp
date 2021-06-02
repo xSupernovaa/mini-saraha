@@ -117,10 +117,10 @@ User FilesManager::load_user_instance_from_disc(int user_id)
 	vector <Message> favorite_messages_vector = load_user_messages_from_disc(favorite_messages_file);
 
 	// move messages from vectors to suitable data structures
-	queue<Message> sent_messages_stack = vector_to_stack(sent_messages_vector);
-	queue<Message> received_messages_stack = vector_to_stack(received_messages_vector);
+	queue<Message> sent_messages_stack = vector_to_queue(sent_messages_vector);
+	deque<Message> received_messages_stack = vector_to_deque(received_messages_vector);
 	deque<Message> favorite_messages_deque = vector_to_deque(favorite_messages_vector);
-
+	
 
 	vector<int> contacts = load_user_contants_from_disc(contacts_file);
 	vector<string> basic_data = load_user_basic_data_from_disc(basic_data_file);
@@ -166,7 +166,7 @@ vector<Message> FilesManager::load_user_messages_from_disc(string messages_file_
 
 
 
-queue<Message> FilesManager:: vector_to_stack(vector<Message> messages_vector)
+queue<Message> FilesManager:: vector_to_queue(vector<Message> messages_vector)
 {
 	queue<Message> messages_stack;
 	
@@ -248,6 +248,78 @@ vector<string> FilesManager:: load_user_basic_data_from_disc(string basic_data_f
 	filesReader.close();
 
 	return basic_data;
+
+
+}
+
+void FilesManager::add_user_data_to_disk(User new_user)
+{
+	for (int recievedMessages = 0; recievedMessages < new_user.getRecievedMessages().size(); recievedMessages++)
+	{
+		filesWriter.open("received_messages.txt", ofstream::app);
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << new_user.getRecievedMessages().front().getSenderId() << " " <<
+				new_user.getRecievedMessages().front().getRecieverId() << " " <<
+				new_user.getRecievedMessages().front().getMessageBody() << endl;
+
+			new_user.getRecievedMessages().pop_back();
+
+		}
+		filesWriter.clear();
+		filesWriter.close();
+	}
+
+	for (int sentMessages = 0; sentMessages < new_user.getSentMessages().size(); sentMessages++)
+	{
+		filesWriter.open("sent_messages.txt", ofstream::app);
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << new_user.getSentMessages().front().getSenderId() << " " <<
+				new_user.getSentMessages().front().getRecieverId() << " " <<
+				new_user.getSentMessages().front().getMessageBody() << endl;
+
+			new_user.getSentMessages().pop();
+
+		}
+		filesWriter.clear();
+		filesWriter.close();
+	}
+	for (int favoriteMessages = 0; favoriteMessages < new_user.getFavoriteMessages().size(); favoriteMessages++)
+	{
+		filesWriter.open("favorite_messages.txt", ofstream::app);
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << new_user.getFavoriteMessages().front().getSenderId() << " " <<
+				new_user.getFavoriteMessages().front().getRecieverId() << " " <<
+				new_user.getFavoriteMessages().front().getMessageBody() << endl;
+
+			new_user.getFavoriteMessages().pop_back();
+
+		}
+		filesWriter.clear();
+		filesWriter.close();
+	}
+
+	for (int contacts = 0; contacts < new_user.getContacts().size(); contacts++)
+	{
+		filesWriter.open("contacts.txt", ofstream::app);
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << new_user.getContacts().front() << endl;
+				
+
+			new_user.getContacts().pop_back();
+
+		}
+		filesWriter.clear();
+		filesWriter.close();
+	}
+
 
 
 }

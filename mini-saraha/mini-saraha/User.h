@@ -15,12 +15,12 @@ private:
 	string password;
 	vector<int> contacts;
 	queue<Message> sentMessages;
-	queue<Message> receivedMessages;
+	deque<Message> receivedMessages;
 	deque<Message> favoriteMessages;
 public:
 	User(int id, string userName, string password);
 	User(int id, string userName, string password, queue<Message> sentMessages,
-		queue<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts);
+		deque<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts);
 	void sendMessage(Message message);
 	void recieveMessage(Message message);
 	void addToFavorite(Message message);
@@ -41,5 +41,12 @@ public:
 	string getUsername();
 	string getPassword();
 	Message getLastMessage();
+	Message getReceivedMessages(int index);
+	vector<int> getContacts();
+	queue<Message> getSentMessages();
+	deque<Message> getRecievedMessages();
+	deque<Message> getFavoriteMessages();
+
+
 };
 

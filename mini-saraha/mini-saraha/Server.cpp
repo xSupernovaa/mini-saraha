@@ -170,9 +170,9 @@ bool Server::login(string username, string password)
 	
 }
 
-void Server::saveSession()
+void Server::saveSession(User current_user)
 {
-
+	files.add_user_data_to_disk(current_user);
 }
 void Server::loadSession()
 {
