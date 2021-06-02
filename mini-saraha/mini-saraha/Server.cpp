@@ -34,7 +34,7 @@ void Server::sendMessage(Message message)
 	if (Server::idExists(message.getSenderId()) && Server::idExists(message.getRecieverId()))
 	{
 		User reciever = *Server::findUser(message.getRecieverId());
-
+		reciever.recieveMessage(message);
 		//cache
 		sent_Messages_Cache.push(message);
 	}

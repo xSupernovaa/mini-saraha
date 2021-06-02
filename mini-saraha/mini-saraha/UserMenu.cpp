@@ -24,7 +24,9 @@ void UserMenu::initial()
 
         cout << "------------------------------- " << endl;
         cout << "Your Choice : ";
-        int userChoice;    cin >> userChoice;
+        int userChoice;   
+        cin >> userChoice;
+        cin.ignore();
         switch (userChoice) {
         case 1:
             viewRecivedMessages();
@@ -37,12 +39,15 @@ void UserMenu::initial()
         case 3:
             viewFavouriteMessages();
             break;
+
         case 4:
             usersSearch();
             break;
+
         case 5:
             viewContacts();
             break;
+
         case 6:
             return;
 
@@ -71,8 +76,7 @@ void UserMenu::viewRecivedMessages( ) {
         switch (userChoice) {
         case 1:
             cout << "Choose Message :"; cin >> userChoice;
-            // userP->addToFavorite(userP->getLastMessage); 
-          //    waiting for bavly changes 
+            addToFavorite(userChoice);
             break;
         case 2:
             return;
@@ -85,6 +89,11 @@ void UserMenu::viewRecivedMessages( ) {
     {
         cout << "You don't have any messages" << endl; 
     }
+}
+
+void UserMenu::addToFavorite(int index)
+{
+    serverP->addFavoriteMessage(userP->getReceivedMessages(index));
 }
 
 
