@@ -117,8 +117,8 @@ User FilesManager::load_user_instance_from_disc(int user_id)
 	vector <Message> favorite_messages_vector = load_user_messages_from_disc(favorite_messages_file);
 
 	// move messages from vectors to suitable data structures
-	stack<Message> sent_messages_stack = vector_to_stack(sent_messages_vector);
-	stack<Message> received_messages_stack = vector_to_stack(received_messages_vector);
+	queue<Message> sent_messages_stack = vector_to_stack(sent_messages_vector);
+	queue<Message> received_messages_stack = vector_to_stack(received_messages_vector);
 	deque<Message> favorite_messages_deque = vector_to_deque(favorite_messages_vector);
 
 
@@ -166,9 +166,9 @@ vector<Message> FilesManager::load_user_messages_from_disc(string messages_file_
 
 
 
-stack<Message> FilesManager:: vector_to_stack(vector<Message> messages_vector)
+queue<Message> FilesManager:: vector_to_stack(vector<Message> messages_vector)
 {
-	stack<Message> messages_stack;
+	queue<Message> messages_stack;
 	
 	for (Message m : messages_vector)
 		messages_stack.push(m);

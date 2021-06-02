@@ -3,7 +3,7 @@
 #include<string>
 #include<iostream>
 #include<deque>
-#include<stack>
+#include<queue>
 #include "Message.h"
 
 using namespace std;
@@ -14,13 +14,13 @@ private:
 	string userName;
 	string password;
 	vector<int> contacts;
-	stack<Message> sentMessages;
-	stack<Message> receivedMessages;
+	queue<Message> sentMessages;
+	queue<Message> receivedMessages;
 	deque<Message> favoriteMessages;
 public:
 	User(int id, string userName, string password);
-	User(int id, string userName, string password, stack<Message> sentMessages,
-		stack<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts);
+	User(int id, string userName, string password, queue<Message> sentMessages,
+		queue<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts);
 	void sendMessage(Message message);
 	void recieveMessage(Message message);
 	void addToFavorite(Message message);

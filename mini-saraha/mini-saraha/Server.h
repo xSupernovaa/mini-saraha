@@ -21,7 +21,7 @@ private:
 	 and only contain data created on that session only*/
 	/* there was no need for recieved messages cache since
 	activity is only made by the logged in user*/
-	stack<Message> sent_Messages_Cache;
+	queue<Message> sent_Messages_Cache;
 	deque<Message> favorite_Messages_Cache;
 	vector<int> added_Contacts_Cache;
 	

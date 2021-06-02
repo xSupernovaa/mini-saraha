@@ -9,8 +9,8 @@ User::User(int id, string userName, string password)
 }
 
 
-User::User(int id, string userName, string password, stack<Message> sentMessages,
-	stack<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts)
+User::User(int id, string userName, string password, queue<Message> sentMessages,
+	queue<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts)
 {
 	this->id = id;
 	this->userName = userName;
@@ -94,10 +94,10 @@ void User::showSentMassages()
 		return;
 	}
 	//retriving data from dataset 
-	stack<Message> showedMessages = sentMessages;
+	queue<Message> showedMessages = sentMessages;
 	while (!showedMessages.empty())
 	{
-		cout << showedMessages.top().getMessageBody() << endl;
+		cout << showedMessages.front().getMessageBody() << endl;
 		showedMessages.pop();
 	}
 }
@@ -108,11 +108,11 @@ void User::showrecievedMassages()
 		cout << "You don't have any messages\n";
 		return;
 	}
-	stack<Message> showedMessages = receivedMessages;
+	queue<Message> showedMessages = receivedMessages;
 	//retriving data from dataset 
 	while (!showedMessages.empty())
 	{
-		cout << showedMessages.top().getMessageBody() << endl;
+		cout << showedMessages.front().getMessageBody() << endl;
 		showedMessages.pop();
 	}
 }
@@ -150,7 +150,7 @@ string User::getPassword()
 Message User::getLastMessage()
 {
 	if (!sentMessages.empty())
-		return sentMessages.top();
+		return sentMessages.front();
 }
 
 bool User::foundMessages()
