@@ -73,7 +73,7 @@ void User::deleteLastFavorite()
 	}
 }
 
-void User::undoLastMassage()
+void User::undoLastSentMassage()
 {
 	/* we could use temporary variable approach or
 	we could retrive data and do the following operation*/
@@ -81,6 +81,7 @@ void User::undoLastMassage()
 		sentMessages.pop();
 	}
 }
+
 // search for contact in my contacts
 int User::searchContact(int id)
 {

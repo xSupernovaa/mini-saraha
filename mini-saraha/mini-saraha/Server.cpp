@@ -33,8 +33,9 @@ void Server::sendMessage(Message message)
 {
 	if (Server::idExists(message.getSenderId()) && Server::idExists(message.getRecieverId()))
 	{
-		User reciever = *Server::findUser(message.getRecieverId());
-
+		User* reciever = Server::findUser(message.getRecieverId());
+		reciever->recieveMessage(message);
+		current_logged_user->sendMessage(message);
 		//cache
 		sent_Messages_Cache.push(message);
 	}
@@ -46,10 +47,10 @@ void Server::deleteLastMessage()
 {
 	Message lastMessage = current_logged_user->getLastMessage();
 	int receiverId = lastMessage.getRecieverId();
-	User receiver = *Server::findUser(receiverId);
+	User* receiver = Server::findUser(receiverId);
 
-	receiver.undoLastMassage();
-	current_logged_user->undoLastMassage();
+	receiver->undoLastSentMassage();
+	current_logged_user->undoLastSentMassage();
 
 	
 
@@ -110,12 +111,14 @@ bool Server::registerUser(string username, string password)
 	{
 		cout << "Username and password incorrect" << endl;
 		return false;
+
 	}
 	else if (_username == true && _password == true)
 	{	
 		User new_user(userCount++, username, password);
 		files.add_new_user_instance_to_disc(new_user);
 		users_credentials = files.load_users_credintials_from_disc();
+		users.push_back(new_user);
 		return true;
 	}
 	

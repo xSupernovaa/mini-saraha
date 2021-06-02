@@ -22,4 +22,7 @@ Mario, 31 May
 Bassel, 01 Jun
     - created a new function in FilesManager, User load_user_instance_from_disc(int user_id), it returns a user instances with all its fields loaded from disc
     
-  
+ 
+Ayman, 2 Jun
+    • Fixed bugs in server and menus where data wasn't propagated on server
+    • Pushed new user into the users vector after registration

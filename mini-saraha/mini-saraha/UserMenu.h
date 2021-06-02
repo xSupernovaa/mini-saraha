@@ -6,7 +6,7 @@ class UserMenu
 	User* userP;
 	Server* serverP;
 public:
-	UserMenu(Server server);
+	UserMenu(Server &server);
 	 void initial(); 
 	 void viewRecivedMessages();
 	 void viewSentMessages();

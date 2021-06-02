@@ -27,7 +27,8 @@ public:
 	void addContact(int contactId);
 	void showContacts();
 	void deleteLastFavorite();
-	void undoLastMassage();
+	void undoLastSentMassage();
+	void undoLastRecievedMessage();
 	int  searchContact(int id);
 	void showSentMassages();
 	void showrecievedMassages();

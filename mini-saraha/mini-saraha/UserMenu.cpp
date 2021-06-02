@@ -3,7 +3,7 @@
 #include "Server.h"
 using namespace std;
 
-UserMenu::UserMenu(Server server) {
+UserMenu::UserMenu(Server &server) {
     serverP = &server;
     userP = server.get_Current_Logged_User();
 }
@@ -94,6 +94,7 @@ void UserMenu::viewSentMessages() {
 
     if (userP->foundSentMessages())
     {
+        userP->showSentMassages();
         cout << "----------------------" << endl;
         cout << "[1] Undo last Message " << endl;
         cout << "[2] Back To Main Menu " << endl;
