@@ -27,7 +27,7 @@ private:
 	
 public:
 	
-
+	bool isMessageDeletion;
 	Server(); 
 	void addContact(int targetId);
 	void sendMessage(Message message);
@@ -37,12 +37,14 @@ public:
 	void delete_Last_Favorite_Message(Message message);
 	bool registerUser(string username, string password);
 	bool login(string username, string password);
-	void saveSession(User current_user);
+	void saveSession();
 	void loadSession();
 	bool validate_password_registration(string password);
 	bool validate_username_register(string username);
 	User* get_Current_Logged_User();
+	
 	~Server();
+
 
 
 	static User* findUser(int id)

@@ -14,7 +14,12 @@ public:
 	    map<string, pair<string, int>> load_users_credintials_from_disc();
 		void add_new_user_instance_to_disc(User new_user);
 		User load_user_instance_from_disc(int user_id);
-		void add_user_data_to_disk(User user);
+		//void add_user_data_to_disk(User user);
+		void add_user_data_to_disk(int logged_user_id,
+								   bool isMessageDeletion,
+								   queue<Message> &sent_messages,
+								   deque<Message> &favorite_messages,
+								   vector<int> &added_contacts);
 
 private:
 	ofstream filesWriter;

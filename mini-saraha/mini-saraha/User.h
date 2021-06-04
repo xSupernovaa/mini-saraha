@@ -14,9 +14,10 @@ private:
 	string userName;
 	string password;
 	vector<int> contacts;
-	queue<Message> sentMessages;
+	queue<Message> sentMessages; // deque to support both undo and chronological saving to files
 	deque<Message> receivedMessages;
 	deque<Message> favoriteMessages;
+	
 public:
 	User(int id, string userName, string password);
 	User(int id, string userName, string password, queue<Message> sentMessages,
@@ -28,7 +29,7 @@ public:
 	void showContacts();
 	void deleteLastFavorite();
 	void undoLastSentMassage();
-	void undoLastRecievedMessage();
+	void undoLastRecievedMessage(int senderId);
 	int  searchContact(int id);
 	void showSentMassages();
 	void showrecievedMassages();

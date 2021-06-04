@@ -14,6 +14,7 @@ Server::Server()
 	users_credentials = files.load_users_credintials_from_disc();
 	current_logged_user = NULL;
 	userCount = users_credentials.size();
+	isMessageDeletion = false;
 }
 
 /**Add the reciver user to sender user's contact list*/
@@ -45,11 +46,12 @@ void Server::sendMessage(Message message)
 
 void Server::deleteLastMessage()
 {
+	isMessageDeletion = true;
 	Message lastMessage = current_logged_user->getLastMessage();
 	int receiverId = lastMessage.getRecieverId();
 	User* receiver = Server::findUser(receiverId);
 
-	receiver->undoLastSentMassage();
+	receiver->undoLastRecievedMessage(current_logged_user->getID());
 	current_logged_user->undoLastSentMassage();
 
 	
@@ -77,6 +79,7 @@ void Server::addFavoriteMessage(Message message)
 
 void Server::delete_Last_Favorite_Message(Message message)
 {
+	isMessageDeletion = true;
 	current_logged_user->deleteLastFavorite();
 
 	//cache
@@ -170,10 +173,27 @@ bool Server::login(string username, string password)
 	
 }
 
-void Server::saveSession(User current_user)
+/*Save data to files and empty cache*/
+void Server::saveSession()
 {
-	files.add_user_data_to_disk(current_user);
+	///* if a message deletion occured the files will be written from start so pass
+	//	all the data not just the session(since the message deletion may be from a previous session)*/
+	//if (isMessageDeletion)
+	//{
+	//	
+	//}
+	//else
+	//{
+	//	
+	//}
+	files.add_user_data_to_disk(current_logged_user->getID(),
+		isMessageDeletion,
+		sent_Messages_Cache,
+		favorite_Messages_Cache,
+		added_Contacts_Cache);
+	isMessageDeletion = false;
 }
+
 void Server::loadSession()
 {
 	for (int i = 0; i < userCount; i++) {

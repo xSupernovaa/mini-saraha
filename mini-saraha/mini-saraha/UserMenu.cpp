@@ -50,6 +50,7 @@ void UserMenu::initial()
 
         case 6:
             //calling saveSession
+            serverP->saveSession();
             return;
 
         default:

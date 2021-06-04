@@ -82,6 +82,17 @@ void User::undoLastSentMassage()
 	}
 }
 
+/* iterate over received messages, the first match of sender
+	is the message to be deleted*/
+void User::undoLastRecievedMessage(int senderId)
+{	
+	for (int i = 0; i < receivedMessages.size(); i++)
+	{
+		if (receivedMessages[i].getSenderId() == senderId)
+			receivedMessages.erase(receivedMessages.begin() + i);
+	}
+}
+
 // search for contact in my contacts
 int User::searchContact(int id)
 {

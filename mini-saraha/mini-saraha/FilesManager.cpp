@@ -252,69 +252,97 @@ vector<string> FilesManager:: load_user_basic_data_from_disc(string basic_data_f
 
 }
 
-void FilesManager::add_user_data_to_disk(User new_user)
+
+void FilesManager::add_user_data_to_disk(int logged_user_id,
+										 bool isMessageDeletion,
+										 queue<Message> &sent_messages,
+										 deque<Message> &favorite_messages,
+										 vector<int> &added_contacts)
 {
-	for (int recievedMessages = 0; recievedMessages < new_user.getRecievedMessages().size(); recievedMessages++)
+	string user_folder_path = "data/users/user_" + to_string(logged_user_id);
+	//auto writeType = isMessageDeletion ? ofstream::trunc : ofstream::app;
+	auto writeType = ofstream::app;
+
+	string sent_messages_file = user_folder_path + "/sent_messages.txt";
+	
+	for (int sentMessagesCnt = 0; sentMessagesCnt < sent_messages.size(); sentMessagesCnt++)
 	{
-		filesWriter.open("received_messages.txt", ofstream::app);
+
+		// Add message to sender files
+		filesWriter.open(sent_messages_file, writeType);
+		if (filesWriter.is_open())
+		{
+			filesWriter << sent_messages.front().getSenderId() << " " <<
+				sent_messages.front().getRecieverId() << " " <<
+				sent_messages.front().getMessageBody() << endl;
+
+		}
+		else
+		{
+			cout << "Error While saving session, Terminating..\n";
+			exit(-1);
+		}
+		filesWriter.clear();
+		filesWriter.close();
+
+		//Add message to reciever files
+		string receiver_folder_path = "data/users/user_" + to_string(sent_messages.front().getRecieverId());
+		string received_messages_file = receiver_folder_path + "/received_messages.txt";
+
+		filesWriter.open(received_messages_file, writeType);
+		if (filesWriter.is_open())
+		{
+			filesWriter << sent_messages.front().getSenderId() << " " <<
+				sent_messages.front().getRecieverId() << " " <<
+				sent_messages.front().getMessageBody() << endl;
+		}
+		else
+		{
+			cout << "Error While saving session, Terminating..\n";
+			exit(-1);
+		}
+		filesWriter.clear();
+		filesWriter.close();
+
+		sent_messages.pop();
+	}
+
+	string favorite_messages_file = user_folder_path + "/favorite_messages.txt";
+	for (int favoriteMessagesCnt = 0; favoriteMessagesCnt < favorite_messages.size(); favoriteMessagesCnt++)
+	{
+		filesWriter.open(favorite_messages_file, writeType);
 
 		if (filesWriter.is_open())
 		{
-			filesWriter << new_user.getRecievedMessages().front().getSenderId() << " " <<
-				new_user.getRecievedMessages().front().getRecieverId() << " " <<
-				new_user.getRecievedMessages().front().getMessageBody() << endl;
+			filesWriter << favorite_messages.front().getSenderId() << " " <<
+				favorite_messages.front().getRecieverId() << " " <<
+				favorite_messages.front().getMessageBody() << endl;
 
-			new_user.getRecievedMessages().pop_back();
+			favorite_messages.pop_front();
 
+		}
+		else
+		{
+			cout << "Error While saving session, Terminating..\n";
+			exit(-1);
 		}
 		filesWriter.clear();
 		filesWriter.close();
 	}
 
-	for (int sentMessages = 0; sentMessages < new_user.getSentMessages().size(); sentMessages++)
+	string contacts_file = user_folder_path + "/contacts.txt";
+	for (int contactsCnt = 0; contactsCnt < added_contacts.size(); contactsCnt++)
 	{
-		filesWriter.open("sent_messages.txt", ofstream::app);
+		filesWriter.open(contacts_file, ofstream::app);
 
 		if (filesWriter.is_open())
 		{
-			filesWriter << new_user.getSentMessages().front().getSenderId() << " " <<
-				new_user.getSentMessages().front().getRecieverId() << " " <<
-				new_user.getSentMessages().front().getMessageBody() << endl;
-
-			new_user.getSentMessages().pop();
-
+			filesWriter << added_contacts[contactsCnt] << endl;
 		}
-		filesWriter.clear();
-		filesWriter.close();
-	}
-	for (int favoriteMessages = 0; favoriteMessages < new_user.getFavoriteMessages().size(); favoriteMessages++)
-	{
-		filesWriter.open("favorite_messages.txt", ofstream::app);
-
-		if (filesWriter.is_open())
+		else
 		{
-			filesWriter << new_user.getFavoriteMessages().front().getSenderId() << " " <<
-				new_user.getFavoriteMessages().front().getRecieverId() << " " <<
-				new_user.getFavoriteMessages().front().getMessageBody() << endl;
-
-			new_user.getFavoriteMessages().pop_back();
-
-		}
-		filesWriter.clear();
-		filesWriter.close();
-	}
-
-	for (int contacts = 0; contacts < new_user.getContacts().size(); contacts++)
-	{
-		filesWriter.open("contacts.txt", ofstream::app);
-
-		if (filesWriter.is_open())
-		{
-			filesWriter << new_user.getContacts().front() << endl;
-				
-
-			new_user.getContacts().pop_back();
-
+			cout << "Error While saving session, Terminating..\n";
+			exit(-1);
 		}
 		filesWriter.clear();
 		filesWriter.close();
