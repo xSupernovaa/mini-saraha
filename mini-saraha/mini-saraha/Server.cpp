@@ -69,7 +69,21 @@ void Server::viewMessages(int senderId)
 {
 	if (Server::idExists(senderId))
 	{
-		Server::users[senderId].showrecievedMassages();
+		cout << "----------------------" << endl;
+		cout << "[1]view all recived messages " << endl;
+		cout << "[2]view messages from user " << endl;
+		cout << "----------------------" << endl;
+		cout << "Your Choice : ";
+		int userChoice;    cin >> userChoice;
+	    switch (userChoice) {
+		case 1:
+			Server::users[senderId].showrecievedMassages();
+			break;
+
+		case 2 :
+			Server::users[senderId].showAllSenders();
+			break;
+		}
 	}
 }
 

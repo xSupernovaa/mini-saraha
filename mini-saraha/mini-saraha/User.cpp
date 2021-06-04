@@ -125,11 +125,41 @@ void User::showrecievedMassages()
 	deque<Message> showedMessages = receivedMessages;
 	//retriving data from dataset 
 	int i = 1;
+	showedMessages = receivedMessages;
 	while (!showedMessages.empty())
 	{
-		cout << i << "- " << showedMessages.back().getMessageBody() << endl;
-		showedMessages.pop_back();
+		cout << i << "-id: "<< showedMessages.back().getSenderId()<< " " << showedMessages.back().getMessageBody() << endl;
 		i++;
+		showedMessages.pop_back();
+	}
+}
+
+void User::showAllSenders()
+{
+	if (receivedMessages.empty()) {
+		cout << "You don't have any messages\n";
+		return;
+	}
+	deque<Message> showedMessages = receivedMessages;
+	//retriving data from dataset 
+	int i = 1;
+	while (!showedMessages.empty())
+	{
+		cout << i << "- " << showedMessages.back().getSenderId() << endl;
+		showedMessages.pop_back();
+	}
+	cout << "choose user: ";
+	int sender;
+	cin >> sender;
+	i = 1;
+    showedMessages = receivedMessages;
+	while (!showedMessages.empty())
+	{
+		if (sender == showedMessages.back().getSenderId()) {
+			cout << i << "- " << showedMessages.back().getMessageBody() << endl;
+			i++;
+		}
+		showedMessages.pop_back();
 	}
 }
 

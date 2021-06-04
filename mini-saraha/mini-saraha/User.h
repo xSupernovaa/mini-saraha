@@ -33,6 +33,7 @@ public:
 	int  searchContact(int id);
 	void showSentMassages();
 	void showrecievedMassages();
+	void showAllSenders();
 	void showfavoriteMassages();
 	int getID();
 	bool foundMessages();

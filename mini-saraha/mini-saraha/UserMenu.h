@@ -17,7 +17,8 @@ public:
 	 void viewContacts(); 
 	 void sendMessage(User user);
 	 void selectContact();
-	
+	 void recivedMessageState();
+	 void viewspecificMessages();
 
 };
 

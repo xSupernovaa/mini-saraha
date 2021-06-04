@@ -65,7 +65,6 @@ void UserMenu::initial()
     
 
 
-
 void UserMenu::viewRecivedMessages( ) {
     if (userP->foundMessages())
     {
@@ -256,7 +255,6 @@ void UserMenu::viewContacts() {
 
 void UserMenu::selectContact()
 {
-    string x;
     cout << "Enter User id : ";
     int user_id;    cin >> user_id;
     User selected_contact = *serverP->findUser(user_id); 
@@ -274,7 +272,8 @@ void UserMenu::selectContact()
             break;
         case 2:
             selected_contact.showContacts();
-            cin >> x; 
+            cout << "[1]To main menu: ";
+            cin >> userChoice; 
             return;
 
         default:
