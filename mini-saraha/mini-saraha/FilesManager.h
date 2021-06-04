@@ -14,10 +14,9 @@ public:
 	    map<string, pair<string, int>> load_users_credintials_from_disc();
 		void add_new_user_instance_to_disc(User new_user);
 		User load_user_instance_from_disc(int user_id);
-		//void add_user_data_to_disk(User user);
 		void add_user_data_to_disk(int logged_user_id,
 								   bool isMessageDeletion,
-								   queue<Message> &sent_messages,
+								   deque<Message> &sent_messages,
 								   deque<Message> &favorite_messages,
 								   vector<int> &added_contacts);
 
@@ -33,5 +32,6 @@ private:
 	queue<Message> vector_to_queue(vector<Message> messages_vector);
 	deque<Message> vector_to_deque(vector<Message> messages_vector);
 	vector<string> load_user_basic_data_from_disc(string basic_data_file);
+	void add_user_basicData_to_disc(string username, string password, int id, string folderPath);
 };
 

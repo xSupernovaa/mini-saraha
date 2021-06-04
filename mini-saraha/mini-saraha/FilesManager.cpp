@@ -37,6 +37,7 @@ void FilesManager::add_new_user_instance_to_disc(User new_user)
 	string folder_path = make_new_user_folder(folder_name);
 	create_new_user_data_files(folder_path);
 	add_new_user_credintials_to_disc(new_user.getUsername(), new_user.getPassword(), new_user.getID());
+	add_user_basicData_to_disc(new_user.getUsername(), new_user.getPassword(), new_user.getID(), folder_path);
 }
  
 
@@ -98,6 +99,20 @@ void FilesManager::create_new_user_file(string file_path)
 	filesWriter.close();
 }
 
+void FilesManager::add_user_basicData_to_disc(string username, string password, int id, string folderPath)
+{
+	string filePath = folderPath + "/basic_data.txt";
+	filesWriter.open(filePath, ofstream::app);
+	if (filesWriter.is_open())
+		filesWriter << username << " " << password << " " << id;
+	else
+	{
+		cout << "Failed to write basic data to file, Terminating..\n";
+		exit(-1);
+	}
+	filesWriter.clear();
+	filesWriter.close();
+}
 
 
 User FilesManager::load_user_instance_from_disc(int user_id)
@@ -117,7 +132,7 @@ User FilesManager::load_user_instance_from_disc(int user_id)
 	vector <Message> favorite_messages_vector = load_user_messages_from_disc(favorite_messages_file);
 
 	// move messages from vectors to suitable data structures
-	queue<Message> sent_messages_stack = vector_to_queue(sent_messages_vector);
+	deque<Message> sent_messages_stack = vector_to_deque(sent_messages_vector);
 	deque<Message> received_messages_stack = vector_to_deque(received_messages_vector);
 	deque<Message> favorite_messages_deque = vector_to_deque(favorite_messages_vector);
 	
@@ -255,7 +270,7 @@ vector<string> FilesManager:: load_user_basic_data_from_disc(string basic_data_f
 
 void FilesManager::add_user_data_to_disk(int logged_user_id,
 										 bool isMessageDeletion,
-										 queue<Message> &sent_messages,
+										 deque<Message> &sent_messages,
 										 deque<Message> &favorite_messages,
 										 vector<int> &added_contacts)
 {
@@ -265,7 +280,7 @@ void FilesManager::add_user_data_to_disk(int logged_user_id,
 
 	string sent_messages_file = user_folder_path + "/sent_messages.txt";
 	
-	for (int sentMessagesCnt = 0; sentMessagesCnt < sent_messages.size(); sentMessagesCnt++)
+	while (!sent_messages.empty())
 	{
 
 		// Add message to sender files
@@ -304,14 +319,38 @@ void FilesManager::add_user_data_to_disk(int logged_user_id,
 		filesWriter.clear();
 		filesWriter.close();
 
-		sent_messages.pop();
+		sent_messages.pop_front();
 	}
 
-	string favorite_messages_file = user_folder_path + "/favorite_messages.txt";
-	for (int favoriteMessagesCnt = 0; favoriteMessagesCnt < favorite_messages.size(); favoriteMessagesCnt++)
-	{
-		filesWriter.open(favorite_messages_file, writeType);
 
+	string contacts_file = user_folder_path + "/contacts.txt";
+	filesWriter.open(contacts_file, ofstream::app);
+	for (int contactsCnt = 0; contactsCnt < added_contacts.size(); contactsCnt++)
+	{
+		
+
+		if (filesWriter.is_open())
+		{
+			filesWriter << added_contacts[contactsCnt] << endl;
+		}
+		else
+		{
+			cout << "Error While saving session, Terminating..\n";
+			exit(-1);
+		}
+		
+	}
+	filesWriter.clear();
+	filesWriter.close();
+
+
+	string favorite_messages_file = user_folder_path + "/favorite_messages.txt";
+	writeType = ofstream::trunc;
+	filesWriter.open(favorite_messages_file, writeType);
+	while (!favorite_messages.empty())
+	{
+		
+		
 		if (filesWriter.is_open())
 		{
 			filesWriter << favorite_messages.front().getSenderId() << " " <<
@@ -326,28 +365,8 @@ void FilesManager::add_user_data_to_disk(int logged_user_id,
 			cout << "Error While saving session, Terminating..\n";
 			exit(-1);
 		}
-		filesWriter.clear();
-		filesWriter.close();
+		
 	}
-
-	string contacts_file = user_folder_path + "/contacts.txt";
-	for (int contactsCnt = 0; contactsCnt < added_contacts.size(); contactsCnt++)
-	{
-		filesWriter.open(contacts_file, ofstream::app);
-
-		if (filesWriter.is_open())
-		{
-			filesWriter << added_contacts[contactsCnt] << endl;
-		}
-		else
-		{
-			cout << "Error While saving session, Terminating..\n";
-			exit(-1);
-		}
-		filesWriter.clear();
-		filesWriter.close();
-	}
-
-
-
+	filesWriter.clear();
+	filesWriter.close();
 }

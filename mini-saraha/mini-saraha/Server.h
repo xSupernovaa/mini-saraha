@@ -21,7 +21,7 @@ private:
 	 and only contain data created on that session only*/
 	/* there was no need for recieved messages cache since
 	activity is only made by the logged in user*/
-	queue<Message> sent_Messages_Cache;
+	deque<Message> sent_Messages_Cache;
 	deque<Message> favorite_Messages_Cache;
 	vector<int> added_Contacts_Cache;
 	
@@ -34,7 +34,7 @@ public:
 	void deleteLastMessage();
 	void viewMessages(int userId);
 	void addFavoriteMessage(Message message);
-	void delete_Last_Favorite_Message(Message message);
+	void delete_Last_Favorite_Message();
 	bool registerUser(string username, string password);
 	bool login(string username, string password);
 	void saveSession();

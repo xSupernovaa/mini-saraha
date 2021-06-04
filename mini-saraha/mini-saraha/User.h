@@ -14,13 +14,13 @@ private:
 	string userName;
 	string password;
 	vector<int> contacts;
-	queue<Message> sentMessages; // deque to support both undo and chronological saving to files
+	deque<Message> sentMessages; // deque to support both undo and chronological saving to files
 	deque<Message> receivedMessages;
 	deque<Message> favoriteMessages;
 	
 public:
 	User(int id, string userName, string password);
-	User(int id, string userName, string password, queue<Message> sentMessages,
+	User(int id, string userName, string password, deque<Message> sentMessages,
 		deque<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts);
 	void sendMessage(Message message);
 	void recieveMessage(Message message);
@@ -42,9 +42,9 @@ public:
 	string getUsername();
 	string getPassword();
 	Message getLastMessage();
-	Message getReceivedMessages(int index);
+	Message getReceivedMessage(int index);
 	vector<int> getContacts();
-	queue<Message> getSentMessages();
+	deque<Message> getSentMessages();
 	deque<Message> getRecievedMessages();
 	deque<Message> getFavoriteMessages();
 

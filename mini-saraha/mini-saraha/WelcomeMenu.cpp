@@ -41,7 +41,8 @@ void WelcomeMenu::welcome()
 
                 cout << "invalid choice ,please try again " << endl;
             }
-
+            string pause;
+            getline(cin, pause);
         }
     
 }

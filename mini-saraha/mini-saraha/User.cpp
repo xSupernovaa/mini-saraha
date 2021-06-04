@@ -9,7 +9,7 @@ User::User(int id, string userName, string password)
 }
 
 
-User::User(int id, string userName, string password, queue<Message> sentMessages,
+User::User(int id, string userName, string password, deque<Message> sentMessages,
 	deque<Message> receivedMessages, deque<Message> favoriteMessages, vector<int> contacts)
 {
 	this->id = id;
@@ -29,7 +29,7 @@ User::User(int id, string userName, string password, queue<Message> sentMessages
 void User::sendMessage(Message newMessage)
 {
 	//waiting ayman to explain  
-	sentMessages.push(newMessage);
+	sentMessages.push_back(newMessage);
 }
 
 void User::recieveMessage(Message message)
@@ -42,7 +42,7 @@ void User::recieveMessage(Message message)
 void User::addToFavorite(Message message)
 {
 	// retrive data then ..
-	favoriteMessages.push_front(message);
+	favoriteMessages.push_back(message);
 	//or we could add it to file directly ..
 }
 
@@ -69,7 +69,7 @@ void User::deleteLastFavorite()
 {
 	//retriving data first 
 	if (!favoriteMessages.empty()) {
-		favoriteMessages.pop_back();
+		favoriteMessages.pop_front();
 	}
 }
 
@@ -78,7 +78,7 @@ void User::undoLastSentMassage()
 	/* we could use temporary variable approach or
 	we could retrive data and do the following operation*/
 	if (!sentMessages.empty()) {
-		sentMessages.pop();
+		sentMessages.pop_back();
 	}
 }
 
@@ -106,11 +106,13 @@ void User::showSentMassages()
 		return;
 	}
 	//retriving data from dataset 
-	queue<Message> showedMessages = sentMessages;
+	deque<Message> showedMessages = sentMessages;
+	int i = 1;
 	while (!showedMessages.empty())
 	{
-		cout << showedMessages.front().getMessageBody() << endl;
-		showedMessages.pop();
+		cout << i << "- " << showedMessages.back().getMessageBody() << endl;
+		showedMessages.pop_back();
+		i++;
 	}
 }
 
@@ -122,10 +124,12 @@ void User::showrecievedMassages()
 	}
 	deque<Message> showedMessages = receivedMessages;
 	//retriving data from dataset 
+	int i = 1;
 	while (!showedMessages.empty())
 	{
-		cout << showedMessages.front().getMessageBody() << endl;
+		cout << i << "- " << showedMessages.back().getMessageBody() << endl;
 		showedMessages.pop_back();
+		i++;
 	}
 }
 
@@ -137,10 +141,12 @@ void User::showfavoriteMassages()
 	}
 	//retriving data from dataset 
 	deque<Message> showedMessages = favoriteMessages;
+	int i = 1;
 	while (!showedMessages.empty())
 	{
-		cout << showedMessages.back().getMessageBody() << endl;
+		cout << i << "- " << showedMessages.back().getMessageBody() << endl;
 		showedMessages.pop_back();
+		i++;
 	}
 }
 
@@ -162,12 +168,15 @@ string User::getPassword()
 Message User::getLastMessage()
 {
 	if (!sentMessages.empty())
-		return sentMessages.front();
+		return sentMessages.back();
 }
 
-Message User::getReceivedMessages(int index)
+Message User::getReceivedMessage(int index)
 {
-	return receivedMessages[index];
+	if (index >= 0 and index <= receivedMessages.size())
+		return receivedMessages[index];
+	else
+		cout << "ERROR! Message index out of bounds\n";
 }
 
 bool User::foundMessages()
@@ -192,7 +201,7 @@ vector<int> User::getContacts()
 {
 	return contacts;
 }
-queue<Message> User::getSentMessages()
+deque<Message> User::getSentMessages()
 {
 	return sentMessages;
 }

@@ -38,7 +38,7 @@ void Server::sendMessage(Message message)
 		reciever->recieveMessage(message);
 		current_logged_user->sendMessage(message);
 		//cache
-		sent_Messages_Cache.push(message);
+		sent_Messages_Cache.push_back(message);
 	}
 	else
 		cout << "Sender or Reciver Id not found please check the ids and try again\n";
@@ -46,8 +46,13 @@ void Server::sendMessage(Message message)
 
 void Server::deleteLastMessage()
 {
+	if (sent_Messages_Cache.empty())
+	{
+		cout << "No messages sent this session!";
+		return;
+	}
 	isMessageDeletion = true;
-	Message lastMessage = current_logged_user->getLastMessage();
+	Message lastMessage = sent_Messages_Cache.back();
 	int receiverId = lastMessage.getRecieverId();
 	User* receiver = Server::findUser(receiverId);
 
@@ -57,8 +62,7 @@ void Server::deleteLastMessage()
 	
 
 	//cache
-	if (!sent_Messages_Cache.empty())
-		sent_Messages_Cache.pop();
+	sent_Messages_Cache.pop_back();
 }
 
 void Server::viewMessages(int senderId)
@@ -77,14 +81,13 @@ void Server::addFavoriteMessage(Message message)
 	favorite_Messages_Cache.push_back(message);
 }
 
-void Server::delete_Last_Favorite_Message(Message message)
+void Server::delete_Last_Favorite_Message()
 {
 	isMessageDeletion = true;
 	current_logged_user->deleteLastFavorite();
 
 	//cache
-	if (!favorite_Messages_Cache.empty())
-		favorite_Messages_Cache.pop_back();
+	
 }
 
 bool Server::registerUser(string username, string password)
@@ -176,22 +179,15 @@ bool Server::login(string username, string password)
 /*Save data to files and empty cache*/
 void Server::saveSession()
 {
-	///* if a message deletion occured the files will be written from start so pass
-	//	all the data not just the session(since the message deletion may be from a previous session)*/
-	//if (isMessageDeletion)
-	//{
-	//	
-	//}
-	//else
-	//{
-	//	
-	//}
+	auto favorite_messages = current_logged_user->getFavoriteMessages();
 	files.add_user_data_to_disk(current_logged_user->getID(),
 		isMessageDeletion,
 		sent_Messages_Cache,
-		favorite_Messages_Cache,
+		favorite_messages,
 		added_Contacts_Cache);
+
 	isMessageDeletion = false;
+	added_Contacts_Cache.clear();
 }
 
 void Server::loadSession()

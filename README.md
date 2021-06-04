@@ -26,3 +26,23 @@ Bassel, 01 Jun
 Ayman, 2 Jun
     • Fixed bugs in server and menus where data wasn't propagated on server
     • Pushed new user into the users vector after registration
+
+Ayman, 4 Jun commit 1
+    • finished saveSession(), data now saves to disc
+    • added undo last message logic
+
+Ayman, 4 Jun commit 2
+    • added save basic data to file
+    • switched received messages to deque (better support for undo and display order)
+    • fixed bugs in saveSession()
+    • added favorite messages saving and deleting
+    • userMenu now displays username not id
+    • fixed messages display order (newer messages show at top now)
+    • fixed bugs in messages holders (pops and pushes weren't targeting correct message)
+
+    To Do:
+        - view all the received messages from specific contact.
+        - display sender id beside message content in view messages
+        - view all contacts of specific user.
+        - testing
+        after the above is done: gui

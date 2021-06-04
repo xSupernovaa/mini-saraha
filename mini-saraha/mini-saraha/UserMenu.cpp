@@ -14,7 +14,7 @@ void UserMenu::initial()
     while (true)
     {
          system("CLS");
-        cout << "------WELCOME TO YOUR ACCOUNT " << userP->getID() << endl;
+        cout << "------WELCOME TO YOUR ACCOUNT " << userP->getUsername() << endl;
         cout << "[1] My messages " << endl;
         cout << "[2] Sent messages " << endl;
         cout << "[3] favorites " << endl;
@@ -57,6 +57,9 @@ void UserMenu::initial()
             break;
 
         }
+
+        string pause;
+        getline(cin,pause);
     }
 }
     
@@ -95,7 +98,12 @@ void UserMenu::viewRecivedMessages( ) {
 
 void UserMenu::addToFavorite(int index)
 {
-    serverP->addFavoriteMessage(userP->getReceivedMessages(index));
+    //since first message displayed is last message in array
+    // and assuming user input is one based
+    int size = userP->getRecievedMessages().size();
+    int target = size - index; 
+    
+    serverP->addFavoriteMessage(userP->getReceivedMessage(target));
 }
 
 
@@ -140,14 +148,14 @@ void UserMenu::viewFavouriteMessages() {
 
         userP->showfavoriteMassages();
         cout << "----------------------" << endl;
-        cout << "[1] Delete Last Favourite Message " << endl;
+        cout << "[1] Delete Oldest Favourite Message " << endl;
         cout << "[2] Back To Main Menu " << endl;
         cout << "------------------------------- " << endl;
         cout << "Your Choice : ";
         int userChoice;    cin >> userChoice;
         switch (userChoice) {
         case 1:
-            serverP->deleteLastMessage();
+            serverP->delete_Last_Favorite_Message();
             break;
         case 2:
             return;
