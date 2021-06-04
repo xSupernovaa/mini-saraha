@@ -46,3 +46,6 @@ Ayman, 4 Jun commit 2
         - view all contacts of specific user.
         - testing
         after the above is done: gui
+        
+Bavlly, 4 Jun 
+      • finished all todos 
