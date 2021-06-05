@@ -1,0 +1,111 @@
+Picture.Picture1 {
+    Size = (805, 605);
+
+    Renderer {
+        Texture = "texture/allback.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Label.Label1 {
+    HorizontalAlignment = Center;
+    Position = (180, 10);
+    Size = (437.2, 66.1158);
+    Text = "Sent Messages";
+    TextSize = 40;
+    VerticalAlignment = Center;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = #3C3C3C;
+        TextureBackground = None;
+    }
+}
+
+ListBox.messageList {
+    ItemHeight = 20;
+    MaximumItems = 0;
+    Position = (40, 120.125);
+    Size = (720, 371.875);
+    TextSize = 20;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorHover = #F5F5F5;
+        BorderColor = white;
+        Borders = (5, 5, 5, 5);
+        Padding = (0, 0, 0, 0);
+        SelectedBackgroundColor = #006EFF;
+        SelectedBackgroundColorHover = #1E96FF;
+        SelectedTextColor = white;
+        TextColor = black;
+        TextColorHover = black;
+        TextureBackground = "texture/welback.png" Part(10000, 4121222, 3000, 2500) Smooth;
+    }
+}
+
+Button.back {
+    MouseCursor = Hand;
+    Position = (30, 10);
+    Size = (34.6667, 40);
+    TextSize = 13;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = "texture/backButton.png" Smooth;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = "texture/backhover.png" Smooth;
+    }
+}
+
+Button.Button1 {
+    MouseCursor = Hand;
+    Position = (260, 520);
+    Size = (288, 42.069);
+    Text = "Unsend last message";
+    TextSize = 20;
+
+    Renderer {
+        BackgroundColor = white;
+        BackgroundColorDisabled = #FFFDE5;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        RoundedBorderRadius = 7;
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}

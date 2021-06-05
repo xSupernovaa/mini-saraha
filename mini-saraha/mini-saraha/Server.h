@@ -49,7 +49,8 @@ public:
 
 	static User* findUser(int id)
 	{
-		if (id >= 0 && id <= userCount)
+		int temp = idExists(id);
+		if (id >= 0 && id <= userCount-1)
 			return &users[id];
 		else
 			cout << "User Id out of bounds\n";

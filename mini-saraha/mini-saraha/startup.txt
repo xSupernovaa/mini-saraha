@@ -1,0 +1,107 @@
+Picture.Picture1 {
+    Position = (0, -0.431091);
+    Size = (804, 600.425);
+
+    Renderer {
+        Texture = "texture/welback.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Button.exit {
+    MouseCursor = Hand;
+    Position = (280, 430);
+    Size = (260, 85.3333);
+    Text = Exit;
+    TextSize = 50;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        TextColor = white;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = white;
+        TextColorHover = white;
+        Texture = "texture/button.png" Smooth;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = "texture/buttonhover.png" Smooth;
+    }
+}
+
+Button.register {
+    MouseCursor = Hand;
+    Position = (280, 170);
+    Size = (260, 85.3333);
+    Text = Register;
+    TextSize = 50;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        RoundedBorderRadius = 0;
+        TextColor = white;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = white;
+        TextColorHover = white;
+        Texture = "texture/button.png" Smooth;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = "texture/buttonhover.png" Smooth;
+    }
+}
+
+Button.login {
+    MouseCursor = Hand;
+    Position = (280, 300);
+    Size = (260, 85.3333);
+    Text = Login;
+    TextSize = 50;
+    UserData = "";
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        TextColor = white;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = white;
+        TextColorHover = white;
+        Texture = "texture/button.png" Smooth;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = "texture/buttonhover.png" Smooth;
+    }
+}

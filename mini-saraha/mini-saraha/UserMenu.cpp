@@ -1,71 +1,28 @@
 #include "UserMenu.h"
 #include <iostream>
 #include "Server.h"
+#include "WelcomeMenu.h"
 using namespace std;
+
+User* userP;
+Server* serverP;
 
 UserMenu::UserMenu(Server &server) {
     serverP = &server;
     userP = server.get_Current_Logged_User();
 }
 
-void UserMenu::initial()
+void addToFavorite(int index)
 {
-
-    while (true)
-    {
-         system("CLS");
-        cout << "------WELCOME TO YOUR ACCOUNT " << userP->getUsername() << endl;
-        cout << "[1] My messages " << endl;
-        cout << "[2] Sent messages " << endl;
-        cout << "[3] favorites " << endl;
-        cout << "[4] search  " << endl;
-        cout << "[5] Contacts  " << endl;
-        cout << "[6] log out   " << endl;
-
-        cout << "------------------------------- " << endl;
-        cout << "Your Choice : ";
-        int userChoice;   
-        cin >> userChoice;
-        cin.ignore();
-        switch (userChoice) {
-        case 1:
-            viewRecivedMessages();
-            break;
-
-        case 2:
-            viewSentMessages();
-            break;
-
-        case 3:
-            viewFavouriteMessages();
-            break;
-
-        case 4:
-            usersSearch();
-            break;
-
-        case 5:
-            viewContacts();
-            break;
-
-        case 6:
-            //calling saveSession
-            serverP->saveSession();
-            return;
-
-        default:
-            break;
-
-        }
-
-        string pause;
-        getline(cin,pause);
-    }
-}
+    //since first message displayed is last message in array
+    // and assuming user input is one based
+    int size = userP->getRecievedMessages().size();
+    int target = size - index; 
     
+    serverP->addFavoriteMessage(userP->getReceivedMessage(target));
+}
 
-
-void UserMenu::viewRecivedMessages( ) {
+void viewRecivedMessages( ) {
     if (userP->foundMessages())
     {
         serverP->viewMessages(userP->getID());
@@ -95,51 +52,37 @@ void UserMenu::viewRecivedMessages( ) {
     }
 }
 
-void UserMenu::addToFavorite(int index)
-{
-    //since first message displayed is last message in array
-    // and assuming user input is one based
-    int size = userP->getRecievedMessages().size();
-    int target = size - index; 
-    
-    serverP->addFavoriteMessage(userP->getReceivedMessage(target));
-}
 
-
-
-
-void UserMenu::viewSentMessages() {
+void viewSentMessages(tgui::ListBox::Ptr messageList) {
 
     if (userP->foundSentMessages())
     {
-        userP->showSentMassages();
-        cout << "----------------------" << endl;
-        cout << "[1] Undo last Message " << endl;
-        cout << "[2] Back To Main Menu " << endl;
-        cout << "----------------------" << endl;
-        cout << "Your Choice : ";
-        int userChoice;    cin >> userChoice;
-        switch (userChoice) {
-        case 1:
-            serverP->deleteLastMessage();
-            break;
-        case 2:
-            return;
-        default:
-            break;
-
-
+        int y = userP->getSentMessages().size();
+        for (int i = 0; i < userP->getSentMessages().size(); i++) {
+            messageList->addItem(tgui::String(userP->getSentMessages()[i].getMessageBody()));
         }
     }
     else {
-        cout << "You don't have any messages" << endl;
+        messageList->addItem(tgui::String("You don't have any messages"));
     }
 }
 
+void sentMessagesWidgets(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("sent.txt");
+
+    auto messageList = gui.get<tgui::ListBox>("messageList");
+    viewSentMessages(messageList);
+
+    auto undo = gui.get<tgui::Button>("Button1");
+    undo->onPress([&] {serverP->deleteLastMessage(); });
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+}
 
 
-
-void UserMenu::viewFavouriteMessages() {
+void viewFavouriteMessages() {
 
     
     if (userP->foundFavouriteMessages())
@@ -171,44 +114,7 @@ void UserMenu::viewFavouriteMessages() {
 }
 
 
-
-void UserMenu::usersSearch() {
-
-    int user_id; 
-    cout << "------SEARCH-------" << endl;
-    cout << "Enter user id : ";   cin >> user_id; 
-
-    User *userS = serverP->findUser(user_id);
-
-    if (userS != nullptr )
-    {
-        displayUserData(*userS);
-        cout << "[1] Add to Conatcts " << endl;
-        cout << "[2] Back To Main Menu " << endl;
-        cout << "------------------------------- " << endl;
-        cout << "Your Choice : ";
-        int userChoice;    cin >> userChoice;
-        switch (userChoice)
-        {
-        case 1 :
-            serverP->addContact(userS->getID()); 
-            break;
-        case 2:
-            return; 
-
-        default:
-            break;
-        }
-
-    }
-   
-}
-
-
-
-
-
-void UserMenu::displayUserData(User  user) {
+void displayUserData(User  user) {
 
     cout << "------------------------" << endl;
     cout << "Username : " << user.getUsername()<< endl; 
@@ -216,14 +122,85 @@ void UserMenu::displayUserData(User  user) {
     cout << "------------------------" << endl;
 }
 
+void usersSearch(tgui::EditBox::Ptr id, tgui::Label::Ptr result, tgui::Button::Ptr add) {
+    
+    int user_id = id->getText().toInt();
+    /*cout << "------SEARCH-------" << endl;
+    cout << "Enter user id : ";   cin >> user_id;*/ 
+
+    User *userS = serverP->findUser(user_id);
+    if (userS != nullptr) {
+        add->setVisible(true);
+        result->setText(userS->getUsername()+ "#" + to_string(userS->getID()));
+        add->onPress([&] { serverP->addContact(userS->getID()); });
+    }
+    else {
+        result->setText("No user with this id");
+        add->setVisible(false);
+    }
+ 
+}
+
+void searchWidgets(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("search.txt");
+
+    auto searchBox = gui.get<tgui::EditBox>("search");
+    auto result = gui.get<tgui::Label>("screen");
+    auto addContact = gui.get<tgui::Button>("Button1");
+    addContact->setVisible(false);
+    searchBox->onReturnKeyPress(&usersSearch, searchBox, result, addContact);
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+}
+
+void sendMessage(User user)
+{
+    cout << "Tell "<< user.getUsername() << " anything!" << endl;
+    string message; 
+    cin >> message; 
+    Message messageS(userP->getID(), user.getID(), message);
+    serverP->sendMessage(messageS);
+
+}
 
 
 
-void UserMenu::viewContacts() {
+void selectContact()
+{
+    cout << "Enter User id : ";
+    int user_id;    cin >> user_id;
+    User selected_contact = *serverP->findUser(user_id);
+        cout << "[1] Send Message:" << endl;
+        cout << "[2] View Contacts :" << endl;
+        cout << "------------------------" << endl;
+        cout << "Your Choice : ";
+
+        int userChoice;    cin >> userChoice;
+
+        switch (userChoice)
+        {
+        case 1:
+            sendMessage(selected_contact);
+            break;
+        case 2:
+            selected_contact.showContacts();
+            cout << "[1]To main menu: ";
+            cin >> userChoice; 
+            return;
+
+        default:
+            break;
+        }
+    }
+   
+
+
+
+void viewContacts() {
      
     if (userP->foundContacts())
     {
-
 
         cout << "------------------------" << endl;
         cout << "     Contacts  " << endl;
@@ -252,45 +229,34 @@ void UserMenu::viewContacts() {
 }
 
 
-
-void UserMenu::selectContact()
+void UserMenu::initial(tgui::GuiBase& gui)
 {
-    cout << "Enter User id : ";
-    int user_id;    cin >> user_id;
-    User selected_contact = *serverP->findUser(user_id); 
-        cout << "[1] Send Message:" << endl;
-        cout << "[2] View Contacts :" << endl;
-        cout << "------------------------" << endl;
-        cout << "Your Choice : ";
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("user.txt");
+    auto widgets = gui.getWidgets();
+    auto label = gui.get<tgui::Label>("label");
+    label->setText("WELCOME TO YOUR ACCOUNT " + to_string(userP->getID()));
 
-        int userChoice;    cin >> userChoice;
+    auto myMessages = gui.get<tgui::Button>("my_messages");
+    myMessages->onPress(&viewRecivedMessages);
 
-        switch (userChoice)
-        {
-        case 1:
-            sendMessage(selected_contact);
-            break;
-        case 2:
-            selected_contact.showContacts();
-            cout << "[1]To main menu: ";
-            cin >> userChoice; 
-            return;
+    auto sent = gui.get<tgui::Button>("sent");
+    sent->onPress([&] {sentMessagesWidgets(gui); });
 
-        default:
-            break;
-        }
-    }
-   
+    auto fav = gui.get<tgui::Button>("fav");
+    fav->onPress(&viewFavouriteMessages);
 
+    auto search = gui.get<tgui::Button>("search");
+    search->onPress([&] {searchWidgets(gui); });
 
+    auto contacts = gui.get<tgui::Button>("contacts");
+    contacts->onPress(&viewContacts);
 
+    auto logout = gui.get<tgui::Button>("logout");
+    logout->onPress([&] {serverP->saveSession(); WelcomeMenu::backi(gui); });
+}
 
-void UserMenu::sendMessage(User user)
+void UserMenu::backi(tgui::GuiBase& gui)
 {
-    cout << "Tell "<< user.getUsername() << " anything!" << endl;
-    string message; 
-    cin >> message; 
-    Message messageS(userP->getID(), user.getID(), message); 
-    serverP->sendMessage(messageS);
-
+    initial(gui);
 }

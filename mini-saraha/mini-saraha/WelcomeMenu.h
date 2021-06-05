@@ -1,11 +1,12 @@
 #pragma once
 #include "Server.h"
+#include <TGUI/TGUI.hpp>
 class WelcomeMenu
 {
 public:
-	Server server;
+	static Server server;
 	 void welcome();
-	 void sign_in();
-	 void sign_up();
+	 bool runExample(tgui::GuiBase& gui);
+	 static void backi(tgui::GuiBase& gui);
 };
 
