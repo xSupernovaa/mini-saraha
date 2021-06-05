@@ -33,7 +33,7 @@ public:
 	int  searchContact(int id);
 	void showSentMassages();
 	void showrecievedMassages();
-	void showAllSenders();
+	vector<Message> showAllSenders(int sender);
 	void showfavoriteMassages();
 	int getID();
 	bool foundMessages();

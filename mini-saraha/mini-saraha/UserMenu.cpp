@@ -6,14 +6,16 @@ using namespace std;
 
 User* userP;
 Server* serverP;
+int id;
 
 UserMenu::UserMenu(Server &server) {
     serverP = &server;
     userP = server.get_Current_Logged_User();
 }
 
-void addToFavorite(int index)
+void addToFavorite(tgui::ListBox::Ptr messageList)
 {
+    int index = messageList->getSelectedItemIndex();
     //since first message displayed is last message in array
     // and assuming user input is one based
     int size = userP->getRecievedMessages().size();
@@ -22,44 +24,6 @@ void addToFavorite(int index)
     serverP->addFavoriteMessage(userP->getReceivedMessage(target));
 }
 
-void viewRecivedMessages( ) {
-    if (userP->foundMessages())
-    {
-        serverP->viewMessages(userP->getID());
-        cout << "----------------------" << endl;
-        cout << "[1] Add Message To Favourite " << endl;
-        cout << "[2] Back To Main Menu " << endl;
-        cout << "----------------------" << endl;
-        cout << "Your Choice : ";
-        int userChoice;    cin >> userChoice;
-
-
-        switch (userChoice) {
-        case 1:
-            cout << "Choose Message :"; cin >> userChoice;
-            addToFavorite(userChoice);
-            break;
-        case 2:
-            return;
-
-        default:
-            break;
-        }
-    }
-    else
-    {
-        cout << "You don't have any messages" << endl; 
-    }
-}
-
-
-/* helper function to view all received messages*/
-void addToFavorites(tgui::ListBox::Ptr messageList)
-{
-    auto selectedMessage = messageList->getSelectedItem();
-    //not complete
-    
-}
 
 void viewAllRecivedMessages(tgui::GuiBase& gui) {
     gui.removeAllWidgets();
@@ -79,6 +43,7 @@ void viewAllRecivedMessages(tgui::GuiBase& gui) {
             messageList->addItem(tgui::String(receivedMessages.back().getMessageBody()));
             receivedMessages.pop_back();
         }
+        messageList->onItemSelect(&addToFavorite ,messageList);
     }
     else {
         messageList->addItem(tgui::String("You don't have any messages"));
@@ -90,25 +55,71 @@ void viewAllRecivedMessages(tgui::GuiBase& gui) {
     addFavorite->setEnabled(false);
     addFavorite->setText(tgui::String("Logic not done yet!"));
 
-
-    if (userP->foundMessages())
-    {
-        addFavorite->onPress([&] {addToFavorites(messageList); });
-    }
-    /*else
-    {
-        addFavorite->setEnabled(false);
-        addFavorite->setText(tgui::String("No received messages yet."));
-    }*/
-
     auto back = gui.get<tgui::Button>("back");
     back->onPress([&] {UserMenu::backi(gui); });
 }
 
 
+void recivedUserMessages(tgui::ListBox::Ptr messageList)
+{
+    int index = messageList->getSelectedItemIndex();
+    id = messageList->getItemByIndex(index).toInt();
+}
 
-void view_specific_user_messages() {
+void senderMessagesWidgets(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("sent.txt");
 
+    auto label = gui.get<tgui::Label>("Label1");
+    label->setText(tgui::String("Received Messages"));
+
+    vector<Message> messages = userP->showAllSenders(id);
+
+    auto messageList2 = gui.get<tgui::ListBox>("messageList");
+    //add messages to list
+    for (int i = 0; i < messages.size(); i++)
+    {
+       messageList2->addItem(tgui::String(messages[i].getMessageBody()));
+    }
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+
+    auto button = gui.get<tgui::Button>("Button1");
+    button->setVisible(false);
+   
+}
+
+void view_specific_user_messages(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("sent.txt");
+
+
+    auto label = gui.get<tgui::Label>("Label1");
+    label->setText(tgui::String("Received Messages"));
+
+    auto messageList = gui.get<tgui::ListBox>("messageList");
+    //add messages to list
+    if (userP->foundMessages())
+    {
+        auto receivedMessages = userP->getRecievedMessages();
+        int size = receivedMessages.size();
+        while (!receivedMessages.empty()) {
+            messageList->addItem(tgui::String(receivedMessages.back().getSenderId()));
+            receivedMessages.pop_back();
+        }
+        messageList->onItemSelect(&recivedUserMessages, messageList);
+        messageList->onItemSelect([&] {senderMessagesWidgets(gui); });
+    }
+    else {
+        messageList->addItem(tgui::String("You don't have any messages from users"));
+    }
+
+    auto button = gui.get<tgui::Button>("Button1");
+    button->setVisible(false);
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
 }
 
 
@@ -122,7 +133,7 @@ void receivedMessagesWidgets(tgui::GuiBase& gui)
     viewAllMessages->onPress([&] {viewAllRecivedMessages(gui); });
 
     auto viewFromUserMessages = gui.get<tgui::Button>("user_messages");
-    viewFromUserMessages->onPress([&] {view_specific_user_messages(); });
+    viewFromUserMessages->onPress([&] {view_specific_user_messages(gui); });
 
     auto back = gui.get<tgui::Button>("back");
     back->onPress([&] {UserMenu::backi(gui); });

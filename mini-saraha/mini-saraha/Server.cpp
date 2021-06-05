@@ -67,7 +67,7 @@ void Server::deleteLastMessage()
 
 void Server::viewMessages(int senderId)
 {
-	if (Server::idExists(senderId))
+	/*if (Server::idExists(senderId))
 	{
 		cout << "----------------------" << endl;
 		cout << "[1]view all recived messages " << endl;
@@ -84,7 +84,7 @@ void Server::viewMessages(int senderId)
 			Server::users[senderId].showAllSenders();
 			break;
 		}
-	}
+	}*/
 }
 
 void Server::addFavoriteMessage(Message message)

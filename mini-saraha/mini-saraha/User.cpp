@@ -134,33 +134,23 @@ void User::showrecievedMassages()
 	}
 }
 
-void User::showAllSenders()
+vector<Message> User::showAllSenders(int sender)
 {
-	if (receivedMessages.empty()) {
-		cout << "You don't have any messages\n";
-		return;
-	}
+	
 	deque<Message> showedMessages = receivedMessages;
+	vector<Message> temp;
 	//retriving data from dataset 
 	int i = 1;
-	while (!showedMessages.empty())
-	{
-		cout << i << "- " << showedMessages.back().getSenderId() << endl;
-		showedMessages.pop_back();
-	}
-	cout << "choose user: ";
-	int sender;
-	cin >> sender;
-	i = 1;
     showedMessages = receivedMessages;
 	while (!showedMessages.empty())
 	{
 		if (sender == showedMessages.back().getSenderId()) {
-			cout << i << "- " << showedMessages.back().getMessageBody() << endl;
-			i++;
+			temp.push_back(showedMessages.back());
 		}
 		showedMessages.pop_back();
 	}
+
+	return temp;
 }
 
 void User::showfavoriteMassages()
@@ -204,7 +194,7 @@ Message User::getLastMessage()
 Message User::getReceivedMessage(int index)
 {
 	if (index >= 0 and index <= receivedMessages.size())
-		return receivedMessages[index];
+		return receivedMessages[index-1];
 	else
 		cout << "ERROR! Message index out of bounds\n";
 }
