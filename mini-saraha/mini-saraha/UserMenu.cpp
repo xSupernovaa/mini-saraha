@@ -53,13 +53,92 @@ void viewRecivedMessages( ) {
 }
 
 
+/* helper function to view all received messages*/
+void addToFavorites(tgui::ListBox::Ptr messageList)
+{
+    auto selectedMessage = messageList->getSelectedItem();
+    //not complete
+    
+}
+
+void viewAllRecivedMessages(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("sent.txt");
+
+
+    auto label = gui.get<tgui::Label>("Label1");
+    label->setText(tgui::String("Received Messages"));
+
+    auto messageList = gui.get<tgui::ListBox>("messageList");
+    //add messages to list
+    if (userP->foundMessages())
+    {
+        auto receivedMessages = userP->getRecievedMessages();
+        int size = receivedMessages.size();
+        while (!receivedMessages.empty()) {
+            messageList->addItem(tgui::String(receivedMessages.back().getMessageBody()));
+            receivedMessages.pop_back();
+        }
+    }
+    else {
+        messageList->addItem(tgui::String("You don't have any messages"));
+    }
+
+
+    //adding message to favorites
+    auto addFavorite = gui.get<tgui::Button>("Button1");
+    addFavorite->setEnabled(false);
+    addFavorite->setText(tgui::String("Logic not done yet!"));
+
+
+    if (userP->foundMessages())
+    {
+        addFavorite->onPress([&] {addToFavorites(messageList); });
+    }
+    /*else
+    {
+        addFavorite->setEnabled(false);
+        addFavorite->setText(tgui::String("No received messages yet."));
+    }*/
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+}
+
+
+
+void view_specific_user_messages() {
+
+}
+
+
+
+void receivedMessagesWidgets(tgui::GuiBase& gui)
+{
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("receivedMessageChoice.txt");
+
+    auto viewAllMessages = gui.get<tgui::Button>("all_messages");
+    viewAllMessages->onPress([&] {viewAllRecivedMessages(gui); });
+
+    auto viewFromUserMessages = gui.get<tgui::Button>("user_messages");
+    viewFromUserMessages->onPress([&] {view_specific_user_messages(); });
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+}   
+
+
+
 void viewSentMessages(tgui::ListBox::Ptr messageList) {
 
     if (userP->foundSentMessages())
     {
-        int y = userP->getSentMessages().size();
-        for (int i = 0; i < userP->getSentMessages().size(); i++) {
-            messageList->addItem(tgui::String(userP->getSentMessages()[i].getMessageBody()));
+        auto sentMessages = userP->getSentMessages();
+        int size = sentMessages.size();
+        while(!sentMessages.empty()) {
+            messageList->addItem(tgui::String(sentMessages.back().getMessageBody()));
+            sentMessages.pop_back();
         }
     }
     else {
@@ -75,11 +154,18 @@ void sentMessagesWidgets(tgui::GuiBase& gui) {
     viewSentMessages(messageList);
 
     auto undo = gui.get<tgui::Button>("Button1");
-    undo->onPress([&] {serverP->deleteLastMessage(); });
+    if (serverP->isMessageDeletion)
+        undo->onPress([&] {serverP->deleteLastMessage(); });
+    else
+    {
+        undo->setEnabled(false);
+        undo->setText(tgui::String("No messages sent this session."));
+    }
 
     auto back = gui.get<tgui::Button>("back");
     back->onPress([&] {UserMenu::backi(gui); });
 }
+
 
 
 void viewFavouriteMessages() {
@@ -112,6 +198,49 @@ void viewFavouriteMessages() {
         cout << "You don't have any messages" << endl;
     }
 }
+
+void viewFavoriteMessages(tgui::ListBox::Ptr messageList)
+{
+    if (userP->foundFavouriteMessages())
+    {
+        auto fav_messages = userP->getFavoriteMessages();
+        int size = fav_messages.size();
+        while (!fav_messages.empty())
+        {
+            messageList->addItem(tgui::String(fav_messages.back().getMessageBody()));
+            fav_messages.pop_back();
+        }
+    }
+    else {
+        messageList->addItem(tgui::String("You don't have any messages"));
+    }
+}
+
+void favoriteMessagesWidgets(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("sent.txt");
+
+
+    auto label = gui.get<tgui::Label>("Label1");
+    label->setText(tgui::String("Favorite Messages"));
+    
+    auto messageList = gui.get<tgui::ListBox>("messageList");
+    viewFavoriteMessages(messageList);
+
+    auto undo = gui.get<tgui::Button>("Button1");
+    if (userP->foundFavouriteMessages())
+        undo->onPress([&] {serverP->delete_Last_Favorite_Message(); });
+    else
+    {
+        undo->setEnabled(false);
+        undo->setText(tgui::String("No favorite messages yet."));
+    }
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+}
+
+
 
 
 void displayUserData(User  user) {
@@ -235,16 +364,16 @@ void UserMenu::initial(tgui::GuiBase& gui)
     gui.loadWidgetsFromFile("user.txt");
     auto widgets = gui.getWidgets();
     auto label = gui.get<tgui::Label>("label");
-    label->setText("WELCOME TO YOUR ACCOUNT " + to_string(userP->getID()));
+    label->setText("WELCOME TO YOUR ACCOUNT " + userP->getUsername());
 
     auto myMessages = gui.get<tgui::Button>("my_messages");
-    myMessages->onPress(&viewRecivedMessages);
+    myMessages->onPress([&] {receivedMessagesWidgets(gui); });
 
     auto sent = gui.get<tgui::Button>("sent");
     sent->onPress([&] {sentMessagesWidgets(gui); });
 
     auto fav = gui.get<tgui::Button>("fav");
-    fav->onPress(&viewFavouriteMessages);
+    fav->onPress([&] {favoriteMessagesWidgets(gui); });
 
     auto search = gui.get<tgui::Button>("search");
     search->onPress([&] {searchWidgets(gui); });

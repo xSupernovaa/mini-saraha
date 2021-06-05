@@ -348,3 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/mini-saraha/mini-saraha/SFML-2.5.1
+/mini-saraha/mini-saraha/TGUI-0.9

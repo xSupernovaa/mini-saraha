@@ -79,8 +79,8 @@ Button.back {
 
 Button.Button1 {
     MouseCursor = Hand;
-    Position = (260, 520);
-    Size = (288, 42.069);
+    Position = (230, 520);
+    Size = (320, 42.069);
     Text = "Unsend last message";
     TextSize = 20;
 

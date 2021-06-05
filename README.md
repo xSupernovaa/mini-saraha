@@ -46,3 +46,7 @@ Ayman, 4 Jun commit 2
         - view all contacts of specific user.
         - testing
         after the above is done: gui
+
+Ayman, 5 Jun
+    • added favorite messages gui
+    • added base for received messages (couldn't figure out proper add to favorites method)
