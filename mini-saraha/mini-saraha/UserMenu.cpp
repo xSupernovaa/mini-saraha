@@ -7,6 +7,7 @@ using namespace std;
 User* userP;
 Server* serverP;
 int id;
+int contactID;
 
 UserMenu::UserMenu(Server &server) {
     serverP = &server;
@@ -294,80 +295,127 @@ void searchWidgets(tgui::GuiBase& gui) {
     back->onPress([&] {UserMenu::backi(gui); });
 }
 
-void sendMessage(User user)
+void sendMessage(tgui::TextArea::Ptr message, tgui::Label::Ptr sendPrompt, tgui::Button::Ptr send)
 {
-    cout << "Tell "<< user.getUsername() << " anything!" << endl;
-    string message; 
-    cin >> message; 
-    Message messageS(userP->getID(), user.getID(), message);
-    serverP->sendMessage(messageS);
-
-}
-
-
-
-void selectContact()
-{
-    cout << "Enter User id : ";
-    int user_id;    cin >> user_id;
-    User selected_contact = *serverP->findUser(user_id);
-        cout << "[1] Send Message:" << endl;
-        cout << "[2] View Contacts :" << endl;
-        cout << "------------------------" << endl;
-        cout << "Your Choice : ";
-
-        int userChoice;    cin >> userChoice;
-
-        switch (userChoice)
-        {
-        case 1:
-            sendMessage(selected_contact);
-            break;
-        case 2:
-            selected_contact.showContacts();
-            cout << "[1]To main menu: ";
-            cin >> userChoice; 
-            return;
-
-        default:
-            break;
-        }
+    if (!message->getText().toStdString().empty()) {
+        sendPrompt->setVisible(true);
+        Message messageS(userP->getID(), contactID, message->getText().toStdString());
+        serverP->sendMessage(messageS);
+        sendPrompt->setText("message sent");
     }
-   
-
-
-
-void viewContacts() {
-     
-    if (userP->foundContacts())
+    else
     {
-
-        cout << "------------------------" << endl;
-        cout << "     Contacts  " << endl;
-        cout << "------------------------" << endl;
-        userP->showContacts();
-        cout << "------------------------" << endl;
-        cout << "[1] Select Contact  " << endl;
-        cout << "[2] Back To Main Menu " << endl;
-        cout << "------------------------" << endl;
-        cout << "Your Choice : ";
-
-
-        int userChoice;    cin >> userChoice;
-        switch (userChoice)
-        {
-        case 1:
-            selectContact();
-            break;
-        case 2:
-            return;
-
-        default:
-            break;
-        }
+        sendPrompt->setVisible(true);
+        sendPrompt->setText("please enter a message to send");
     }
+
 }
 
+void sendMesaageWidgets(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("sendMessage.txt");
+
+    User selected_contact = *serverP->findUser(contactID);
+
+    auto label = gui.get<tgui::Label>("Label2");
+    label->setText(tgui::String(selected_contact.getUsername() + "\n" + to_string(selected_contact.getID())));
+
+    auto sendPrompt = gui.get<tgui::Label>("Label3");
+    sendPrompt->setVisible(false);
+
+    auto send = gui.get<tgui::Button>("Button1");
+
+
+    auto message = gui.get<tgui::TextArea>("TextArea1");
+
+
+    send->onPress(&sendMessage, message, sendPrompt, send);
+
+    auto back = gui.get<tgui::Button>("Button2");
+    back->onPress([&] {UserMenu::backi(gui); });
+}
+
+void selectContact(tgui::ListBox::Ptr contactList)
+{
+    contactID = contactList->getSelectedItem().toInt();
+}
+
+void contactContactsWidgets(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("sent.txt");
+    User selected_contact = *serverP->findUser(contactID);
+
+    auto label = gui.get<tgui::Label>("Label1");
+    label->setText(tgui::String("Contacts"));
+
+    auto contactList = gui.get<tgui::ListBox>("messageList");
+
+
+    auto undo = gui.get<tgui::Button>("Button1");
+    if (userP->foundContacts()) {
+        for (int i = 0; i < selected_contact.getContacts().size(); i++) {
+            contactList->addItem(tgui::String(selected_contact.getContacts()[i]));
+        }
+    }
+    else
+    {
+        undo->setEnabled(false);
+        undo->setText(tgui::String("No contacts yet."));
+    }
+
+    contactList->setEnabled(false);
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+}
+
+
+void UserChoiceWidgets(tgui::GuiBase& gui) {
+     
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("receivedMessageChoice.txt");
+
+    auto sendMessage = gui.get<tgui::Button>("all_messages");
+    sendMessage->setText("Send Message");
+    sendMessage->onPress([&] {sendMesaageWidgets(gui); });
+
+    auto getcontacts = gui.get<tgui::Button>("user_messages");
+    getcontacts->setText("View Contacts");
+    getcontacts->onPress([&] {contactContactsWidgets(gui); });
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+}
+
+void contactsWidgets(tgui::GuiBase& gui) {
+    gui.removeAllWidgets();
+    gui.loadWidgetsFromFile("sent.txt");
+
+
+    auto label = gui.get<tgui::Label>("Label1");
+    label->setText(tgui::String("Contacts"));
+
+    auto contactList = gui.get<tgui::ListBox>("messageList");
+
+
+    auto undo = gui.get<tgui::Button>("Button1");
+    if (userP->foundContacts()) {
+        for (int i = 0; i < userP->getContacts().size(); i++) {
+            contactList->addItem(tgui::String(userP->getContacts()[i]));
+        }
+    }
+    else
+    {
+        undo->setEnabled(false);
+        undo->setText(tgui::String("No contacts yet."));
+    }
+
+    contactList->onItemSelect(&selectContact, contactList);
+    contactList->onItemSelect([&] {UserChoiceWidgets(gui); });
+
+    auto back = gui.get<tgui::Button>("back");
+    back->onPress([&] {UserMenu::backi(gui); });
+}
 
 void UserMenu::initial(tgui::GuiBase& gui)
 {
@@ -390,7 +438,7 @@ void UserMenu::initial(tgui::GuiBase& gui)
     search->onPress([&] {searchWidgets(gui); });
 
     auto contacts = gui.get<tgui::Button>("contacts");
-    contacts->onPress(&viewContacts);
+    contacts->onPress([&] {contactsWidgets(gui); });
 
     auto logout = gui.get<tgui::Button>("logout");
     logout->onPress([&] {serverP->saveSession(); WelcomeMenu::backi(gui); });
