@@ -367,6 +367,9 @@ void contactContactsWidgets(tgui::GuiBase& gui) {
 
     auto back = gui.get<tgui::Button>("back");
     back->onPress([&] {UserMenu::backi(gui); });
+
+    auto undo = gui.get<tgui::Button>("Button1");
+    undo->setVisible(false);
 }
 
 
@@ -374,6 +377,9 @@ void UserChoiceWidgets(tgui::GuiBase& gui) {
      
     gui.removeAllWidgets();
     gui.loadWidgetsFromFile("receivedMessageChoice.txt");
+
+    auto label = gui.get<tgui::Label>("Label1");
+    label->setText(tgui::String("Contacts"));
 
     auto sendMessage = gui.get<tgui::Button>("all_messages");
     sendMessage->setText("Send Message");
@@ -399,6 +405,7 @@ void contactsWidgets(tgui::GuiBase& gui) {
 
 
     auto undo = gui.get<tgui::Button>("Button1");
+    undo->setVisible(false);
     if (userP->foundContacts()) {
         for (int i = 0; i < userP->getContacts().size(); i++) {
             contactList->addItem(tgui::String(userP->getContacts()[i]));
