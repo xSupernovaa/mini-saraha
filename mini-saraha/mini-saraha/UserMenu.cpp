@@ -9,13 +9,14 @@ Server* serverP;
 int id;
 int contactID;
 User* userS;
+bool sendIndicator = 0;
 
 UserMenu::UserMenu(Server &server) {
     serverP = &server;
     userP = server.get_Current_Logged_User();
 }
 
-void addToFavorite(tgui::ListBox::Ptr messageList)
+void addToFavorite(tgui::ListBox::Ptr messageList, tgui::Button::Ptr added)
 {
     int index = messageList->getSelectedItemIndex();
     //since first message displayed is last message in array
@@ -24,6 +25,8 @@ void addToFavorite(tgui::ListBox::Ptr messageList)
     int target = size - index; 
     
     serverP->addFavoriteMessage(userP->getReceivedMessage(target));
+    added->setText("Added to favorites");
+    added->setVisible(true);
 }
 
 
@@ -34,6 +37,8 @@ void viewAllRecivedMessages(tgui::GuiBase& gui) {
 
     auto label = gui.get<tgui::Label>("Label1");
     label->setText(tgui::String("Received Messages"));
+    auto added = gui.get<tgui::Button>("Button1");
+    added->setVisible(false);
 
     auto messageList = gui.get<tgui::ListBox>("messageList");
     //add messages to list
@@ -45,7 +50,7 @@ void viewAllRecivedMessages(tgui::GuiBase& gui) {
             messageList->addItem(tgui::String(receivedMessages.back().getMessageBody()));
             receivedMessages.pop_back();
         }
-        messageList->onItemSelect(&addToFavorite ,messageList);
+        messageList->onItemSelect(&addToFavorite ,messageList, added);
     }
     else {
         messageList->addItem(tgui::String("You don't have any messages"));
@@ -105,9 +110,24 @@ void view_specific_user_messages(tgui::GuiBase& gui) {
     if (userP->foundMessages())
     {
         auto receivedMessages = userP->getRecievedMessages();
-        int size = receivedMessages.size();
+        bool flag  = 0;
+
+        // adding first element in the list box
+        messageList->addItem(tgui::String(receivedMessages.back().getSenderId()));
+        receivedMessages.pop_back();
+        // adding the rest of elements in the list box
         while (!receivedMessages.empty()) {
+            //removing duplicates 
+            for (int i = 0; i < messageList->getItemCount(); i++)
+            {
+                if (messageList->getItemByIndex(i).toInt() == receivedMessages.back().getSenderId()) {
+                    flag = 1;
+                    break;
+                }
+            }
+            if(!flag)
             messageList->addItem(tgui::String(receivedMessages.back().getSenderId()));
+            flag = 0;
             receivedMessages.pop_back();
         }
         messageList->onItemSelect(&recivedUserMessages, messageList);
@@ -159,6 +179,13 @@ void viewSentMessages(tgui::ListBox::Ptr messageList) {
     }
 }
 
+void unSendLastMessage(tgui::ListBox::Ptr messageList, tgui::Button::Ptr undo) {
+    serverP->deleteLastMessage();
+    messageList->removeItemByIndex(0);
+    undo->setEnabled(false);
+    sendIndicator = 0;
+}
+
 void sentMessagesWidgets(tgui::GuiBase& gui) {
     gui.removeAllWidgets();
     gui.loadWidgetsFromFile("sent.txt");
@@ -167,8 +194,10 @@ void sentMessagesWidgets(tgui::GuiBase& gui) {
     viewSentMessages(messageList);
 
     auto undo = gui.get<tgui::Button>("Button1");
-    if (serverP->isMessageDeletion)
-        undo->onPress([&] {serverP->deleteLastMessage(); });
+    if (sendIndicator) {
+        undo->setEnabled(true);
+        undo->onPress(&unSendLastMessage, messageList, undo);
+    }
     else
     {
         undo->setEnabled(false);
@@ -179,9 +208,12 @@ void sentMessagesWidgets(tgui::GuiBase& gui) {
     back->onPress([&] {UserMenu::backi(gui); });
 }
 
+void deleteOldestFavorite(tgui::ListBox::Ptr messageList) {
+    serverP->delete_Last_Favorite_Message();
+    messageList->removeItemByIndex(messageList->getItemCount()-1);
+}
 
-
-void viewFavoriteMessages(tgui::ListBox::Ptr messageList)
+void viewFavoriteMessages(tgui::ListBox::Ptr messageList, tgui::Button::Ptr undo)
 {
     if (userP->foundFavouriteMessages())
     {
@@ -196,6 +228,8 @@ void viewFavoriteMessages(tgui::ListBox::Ptr messageList)
     else {
         messageList->addItem(tgui::String("You don't have any messages"));
     }
+
+    undo->onPress(&deleteOldestFavorite, messageList);
 }
 
 void favoriteMessagesWidgets(tgui::GuiBase& gui) {
@@ -207,11 +241,11 @@ void favoriteMessagesWidgets(tgui::GuiBase& gui) {
     label->setText(tgui::String("Favorite Messages"));
     
     auto messageList = gui.get<tgui::ListBox>("messageList");
-    viewFavoriteMessages(messageList);
 
     auto undo = gui.get<tgui::Button>("Button1");
+    undo->setText("delete oldest message");
     if (userP->foundFavouriteMessages())
-        undo->onPress([&] {serverP->delete_Last_Favorite_Message(); });
+        viewFavoriteMessages(messageList, undo);
     else
     {
         undo->setEnabled(false);
@@ -266,6 +300,7 @@ void sendMessage(tgui::TextArea::Ptr message, tgui::Label::Ptr sendPrompt, tgui:
         serverP->sendMessage(messageS);
         sendPrompt->setText("message sent");
         message->setText("");
+        sendIndicator = true;
     }
     else
     {
