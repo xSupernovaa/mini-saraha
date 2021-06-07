@@ -71,6 +71,7 @@ void sign_up(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::Lab
     else {
         pPrombt->setVisible(true);
         pPrombt->setText("registered successfully");
+        regb->setEnabled(false);
     }
 }
 
