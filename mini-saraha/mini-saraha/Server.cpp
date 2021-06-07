@@ -22,10 +22,12 @@ void Server::addContact(int recieverId)
 {
 	if (Server::idExists(recieverId))
 	{
-		current_logged_user->addContact(recieverId);
+		if (!current_logged_user->isContactFound(recieverId)) {
+			current_logged_user->addContact(recieverId);
 
-		//cache
-		added_Contacts_Cache.push_back(recieverId);
+			//cache
+			added_Contacts_Cache.push_back(recieverId);
+		}
 	}
 }
 
@@ -69,10 +71,12 @@ void Server::deleteLastMessage()
 
 void Server::addFavoriteMessage(Message message)
 {
-	current_logged_user->addToFavorite(message);
+	if (!current_logged_user->isfavoriteFound(message)) {
+		current_logged_user->addToFavorite(message);
 
-	//cache
-	favorite_Messages_Cache.push_back(message);
+		//cache
+		favorite_Messages_Cache.push_back(message);
+	}
 }
 
 void Server::delete_Last_Favorite_Message()

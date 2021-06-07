@@ -41,17 +41,43 @@ void User::recieveMessage(Message message)
 //to add massages to favorites 
 void User::addToFavorite(Message message)
 {
-	// retrive data then ..
+
 	favoriteMessages.push_back(message);
-	//or we could add it to file directly ..
+
+}
+
+bool User::isfavoriteFound(Message message)
+{
+	for (int i = 0; i < favoriteMessages.size(); i++) {
+		if (message.getMessageBody() == favoriteMessages[i].getMessageBody() && message.getSenderId() == favoriteMessages[i].getSenderId()
+			&& message.getRecieverId() == favoriteMessages[i].getRecieverId())
+			return true;
+	}
+	return false;
+}
+
+bool User::isContactFound(int contactId) {
+	int mid = contacts.size()/2; 
+	while (mid != contacts.size())
+	{
+		if (contactId == contacts[mid]) return true;
+
+		if (contactId < contacts[mid]) {
+			mid -= 1;
+		}
+
+		if (contactId > contacts[mid]) {
+			mid += 1;
+		}
+	}
+	return false;
 }
 
 //to add contact 
 void User::addContact(int contactId)
 {
-	//retrive data then .. 
 	contacts.push_back(contactId);
-	//or we could add it to file directly ..
+	
 }
 
 void User::showContacts()

@@ -25,7 +25,9 @@ public:
 	void sendMessage(Message message);
 	void recieveMessage(Message message);
 	void addToFavorite(Message message);
+	bool isfavoriteFound(Message message);
 	void addContact(int contactId);
+	bool isContactFound(int contactId);
 	void showContacts();
 	void deleteLastFavorite();
 	void undoLastSentMassage();

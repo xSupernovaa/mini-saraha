@@ -222,7 +222,10 @@ void favoriteMessagesWidgets(tgui::GuiBase& gui) {
     back->onPress([&] {UserMenu::backi(gui); });
 }
 
-
+void addContact(tgui::Label::Ptr result) {
+    serverP->addContact(userS->getID());
+    result->setText("contact added successfuly");
+}
 
 void usersSearch(tgui::EditBox::Ptr id, tgui::Label::Ptr result, tgui::Button::Ptr add) {
     
@@ -233,7 +236,7 @@ void usersSearch(tgui::EditBox::Ptr id, tgui::Label::Ptr result, tgui::Button::P
     if (userS != nullptr) {
         add->setVisible(true);
         result->setText(userS->getUsername()+ "#" + to_string(userS->getID()));
-        add->onPress([&] { serverP->addContact(userS->getID()); });
+        add->onPress(addContact, result);
     }
     else {
         result->setText("No user with this id");
