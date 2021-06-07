@@ -97,15 +97,8 @@ bool Server::registerUser(string username, string password)
 
 	_username = validate_username_register(username);
 	_password = validate_password_registration(password);
-	//I do more than (else if) to print to the user the specific problem of registration 
-	//Username is incorrect 
-	if (_username == false && _password == true)
-	{
-		cout << "Username is already taken, enter a username with at least 5 characters" << endl;
-		return false;
-	}
-	//password is incorrect
-	if (_username == false && _password == false)
+
+	if (_username == false || _password == false)
 	{
 		cout << "Please enter a password with at least on upper case, one lower case, one digit, one special character, minimum eight in length";
 		return false;
