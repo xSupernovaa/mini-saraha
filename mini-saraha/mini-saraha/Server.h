@@ -32,7 +32,6 @@ public:
 	void addContact(int targetId);
 	void sendMessage(Message message);
 	void deleteLastMessage();
-	void viewMessages(int userId);
 	void addFavoriteMessage(Message message);
 	void delete_Last_Favorite_Message();
 	bool registerUser(string username, string password);

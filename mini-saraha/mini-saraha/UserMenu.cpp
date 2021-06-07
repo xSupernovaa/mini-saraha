@@ -8,6 +8,7 @@ User* userP;
 Server* serverP;
 int id;
 int contactID;
+User* userS;
 
 UserMenu::UserMenu(Server &server) {
     serverP = &server;
@@ -180,37 +181,6 @@ void sentMessagesWidgets(tgui::GuiBase& gui) {
 
 
 
-void viewFavouriteMessages() {
-
-    
-    if (userP->foundFavouriteMessages())
-    {
-
-        userP->showfavoriteMassages();
-        cout << "----------------------" << endl;
-        cout << "[1] Delete Oldest Favourite Message " << endl;
-        cout << "[2] Back To Main Menu " << endl;
-        cout << "------------------------------- " << endl;
-        cout << "Your Choice : ";
-        int userChoice;    cin >> userChoice;
-        switch (userChoice) {
-        case 1:
-            serverP->delete_Last_Favorite_Message();
-            break;
-        case 2:
-            return;
-
-        default:
-            break;
-
-
-        }
-    }
-    else {
-        cout << "You don't have any messages" << endl;
-    }
-}
-
 void viewFavoriteMessages(tgui::ListBox::Ptr messageList)
 {
     if (userP->foundFavouriteMessages())
@@ -254,22 +224,12 @@ void favoriteMessagesWidgets(tgui::GuiBase& gui) {
 
 
 
-
-void displayUserData(User  user) {
-
-    cout << "------------------------" << endl;
-    cout << "Username : " << user.getUsername()<< endl; 
-    cout << "id : " << user.getID() << endl;
-    cout << "------------------------" << endl;
-}
-
 void usersSearch(tgui::EditBox::Ptr id, tgui::Label::Ptr result, tgui::Button::Ptr add) {
     
     int user_id = id->getText().toInt();
-    /*cout << "------SEARCH-------" << endl;
-    cout << "Enter user id : ";   cin >> user_id;*/ 
 
-    User *userS = serverP->findUser(user_id);
+
+    userS = serverP->findUser(user_id);
     if (userS != nullptr) {
         add->setVisible(true);
         result->setText(userS->getUsername()+ "#" + to_string(userS->getID()));
@@ -302,6 +262,7 @@ void sendMessage(tgui::TextArea::Ptr message, tgui::Label::Ptr sendPrompt, tgui:
         Message messageS(userP->getID(), contactID, message->getText().toStdString());
         serverP->sendMessage(messageS);
         sendPrompt->setText("message sent");
+        message->setText("");
     }
     else
     {

@@ -65,27 +65,7 @@ void Server::deleteLastMessage()
 	sent_Messages_Cache.pop_back();
 }
 
-void Server::viewMessages(int senderId)
-{
-	/*if (Server::idExists(senderId))
-	{
-		cout << "----------------------" << endl;
-		cout << "[1]view all recived messages " << endl;
-		cout << "[2]view messages from user " << endl;
-		cout << "----------------------" << endl;
-		cout << "Your Choice : ";
-		int userChoice;    cin >> userChoice;
-	    switch (userChoice) {
-		case 1:
-			Server::users[senderId].showrecievedMassages();
-			break;
 
-		case 2 :
-			Server::users[senderId].showAllSenders();
-			break;
-		}
-	}*/
-}
 
 void Server::addFavoriteMessage(Message message)
 {
@@ -121,18 +101,12 @@ bool Server::registerUser(string username, string password)
 		return false;
 	}
 	//password is incorrect
-	else if (_username == true && _password == false)
+	if (_username == false && _password == false)
 	{
 		cout << "Please enter a password with at least on upper case, one lower case, one digit, one special character, minimum eight in length";
 		return false;
 	}
-	//username and password is incorrect
-	else if (_username == false && _password == false)
-	{
-		cout << "Username and password incorrect" << endl;
-		return false;
 
-	}
 	else if (_username == true && _password == true)
 	{	
 		User new_user(userCount++, username, password);
@@ -213,8 +187,6 @@ void Server::loadSession()
 }
 
 
-
-
 User* Server::get_Current_Logged_User()
 {
 	return current_logged_user;
@@ -222,7 +194,7 @@ User* Server::get_Current_Logged_User()
 
 Server::~Server()
 {
-
+	saveSession();
 }
 
 

@@ -5,8 +5,8 @@ class WelcomeMenu
 {
 public:
 	static Server server;
-	 void welcome();
-	 bool runExample(tgui::GuiBase& gui);
+	 static void welcome();
+	 static bool runExample(tgui::GuiBase& gui);
 	 static void backi(tgui::GuiBase& gui);
 };
 
