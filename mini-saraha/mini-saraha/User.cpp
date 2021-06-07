@@ -49,7 +49,7 @@ void User::addToFavorite(Message message)
 bool User::isfavoriteFound(Message message)
 {
 	for (int i = 0; i < favoriteMessages.size(); i++) {
-		if (message.getMessageBody() == favoriteMessages[i].getMessageBody() && message.getSenderId() == favoriteMessages[i].getSenderId()
+		if (!message.getMessageBody().compare(favoriteMessages[i].getMessageBody()) && message.getSenderId() == favoriteMessages[i].getSenderId()
 			&& message.getRecieverId() == favoriteMessages[i].getRecieverId())
 			return true;
 	}
