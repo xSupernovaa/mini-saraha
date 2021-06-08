@@ -180,17 +180,6 @@ vector<Message> FilesManager::load_user_messages_from_disc(string messages_file_
 }
 
 
-
-queue<Message> FilesManager:: vector_to_queue(vector<Message> messages_vector)
-{
-	queue<Message> messages_stack;
-	
-	for (Message m : messages_vector)
-		messages_stack.push(m);
-
-	return messages_stack;
-}
-
 deque<Message> FilesManager:: vector_to_deque(vector<Message> messages_vector)
 {
 	deque<Message> messages_deque;
