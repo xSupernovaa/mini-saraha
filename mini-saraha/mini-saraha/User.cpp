@@ -22,10 +22,6 @@ User::User(int id, string userName, string password, deque<Message> sentMessages
 }
 
 
-
-
-
-
 void User::sendMessage(Message newMessage)
 {
 	//waiting ayman to explain  
@@ -82,16 +78,6 @@ void User::addContact(int contactId)
 	
 }
 
-void User::showContacts()
-{
-	//retriving data first 
-	if (!contacts.empty()) {
-		for (int contact = 0; contact < contacts.size(); contact++)
-		{
-			cout << contacts[contact] << endl;
-		}
-	}
-}
 
 void User::deleteLastFavorite()
 {
@@ -103,8 +89,6 @@ void User::deleteLastFavorite()
 
 void User::undoLastSentMassage()
 {
-	/* we could use temporary variable approach or
-	we could retrive data and do the following operation*/
 	if (!sentMessages.empty()) {
 		sentMessages.pop_back();
 	}
@@ -127,47 +111,13 @@ int User::searchContact(int id)
 	return contacts[id];
 }
 
-void User::showSentMassages()
-{
-	if (sentMessages.empty()) {
-		cout << "You don't have any messages\n";
-		return;
-	}
-	//retriving data from dataset 
-	deque<Message> showedMessages = sentMessages;
-	int i = 1;
-	while (!showedMessages.empty())
-	{
-		cout << i << "- " << showedMessages.back().getMessageBody() << endl;
-		showedMessages.pop_back();
-		i++;
-	}
-}
 
-void User::showrecievedMassages()
-{
-	if (receivedMessages.empty()) {
-		cout << "You don't have any messages\n";
-		return;
-	}
-	deque<Message> showedMessages = receivedMessages;
-	//retriving data from dataset 
-	int i = 1;
-	showedMessages = receivedMessages;
-	while (!showedMessages.empty())
-	{
-		cout << i << "-id: "<< showedMessages.back().getSenderId()<< " " << showedMessages.back().getMessageBody() << endl;
-		i++;
-		showedMessages.pop_back();
-	}
-}
 
 vector<Message> User::showAllSenders(int sender)
 {
 	
 	deque<Message> showedMessages = receivedMessages;
 	vector<Message> temp;
-	//retriving data from dataset 
 	int i = 1;
     showedMessages = receivedMessages;
 	while (!showedMessages.empty())
@@ -181,22 +131,6 @@ vector<Message> User::showAllSenders(int sender)
 	return temp;
 }
 
-void User::showfavoriteMassages()
-{
-	if (favoriteMessages.empty()) {
-		cout << "You don't have any messages\n";
-		return;
-	}
-	//retriving data from dataset 
-	deque<Message> showedMessages = favoriteMessages;
-	int i = 1;
-	while (!showedMessages.empty())
-	{
-		cout << i << "- " << showedMessages.back().getMessageBody() << endl;
-		showedMessages.pop_back();
-		i++;
-	}
-}
 
 int User::getID()
 {

@@ -7,6 +7,7 @@ using namespace std;
 vector<User> Server::users;
 int Server::userCount;
 FilesManager files;
+bool sessionStarted = 0;
 
 
 Server::Server()
@@ -152,6 +153,7 @@ bool Server::login(string username, string password)
 	if (users_credentials.count(username) && users_credentials[username].first == password)
 	{
 		current_logged_user = findUser(users_credentials[username].second);
+		sessionStarted = 1;
 		return true;
 	}
 	else
@@ -191,6 +193,7 @@ User* Server::get_Current_Logged_User()
 
 Server::~Server()
 {
+	if(sessionStarted)
 	saveSession();
 }
 

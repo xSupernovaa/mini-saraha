@@ -28,15 +28,11 @@ public:
 	bool isfavoriteFound(Message message);
 	void addContact(int contactId);
 	bool isContactFound(int contactId);
-	void showContacts();
 	void deleteLastFavorite();
 	void undoLastSentMassage();
 	void undoLastRecievedMessage(int senderId);
 	int  searchContact(int id);
-	void showSentMassages();
-	void showrecievedMassages();
 	vector<Message> showAllSenders(int sender);
-	void showfavoriteMassages();
 	int getID();
 	bool foundMessages();
 	bool foundSentMessages();
@@ -50,7 +46,6 @@ public:
 	deque<Message> getSentMessages();
 	deque<Message> getRecievedMessages();
 	deque<Message> getFavoriteMessages();
-
 
 };
 
