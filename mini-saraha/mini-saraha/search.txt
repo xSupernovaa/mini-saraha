@@ -73,8 +73,8 @@ Button.back {
 
 Label.screen {
     HorizontalAlignment = Center;
-    Position = (80, 169.677);
-    Size = (647.2, 158.323);
+    Position = (80, 139.677);
+    Size = (647.2, 268.323);
     Text = "Id and user name appear here";
     TextSize = 50;
     VerticalAlignment = Center;

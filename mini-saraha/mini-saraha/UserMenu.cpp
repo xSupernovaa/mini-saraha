@@ -275,9 +275,10 @@ void usersSearch(tgui::EditBox::Ptr id, tgui::Label::Ptr result, tgui::Button::P
         }
         else if (userP->isContactFound(userS->getID())) {
             result->setText(userS->getUsername() + "#" + to_string(userS->getID())+ "\n Found in your contacts");
+            add->setVisible(false);
         }
         else {
-            result->setText(userS->getUsername() + "#" + to_string(userS->getID()));
+            result->setText(userS->getUsername() + "#" + to_string(userS->getID()) + "\n Not found in your contacts");
             add->setVisible(true);
             add->onPress(addContact, result, add);
         }
