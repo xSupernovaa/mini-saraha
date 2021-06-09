@@ -53,20 +53,8 @@ bool User::isfavoriteFound(Message message)
 }
 
 bool User::isContactFound(int contactId) {
-	int first=0,last= contacts.size()-1,mid = 0;
-	while (mid != contacts.size() || mid < 0)
-	{
-		mid = (first + last) / 2;
-
-		if (contactId == contacts[mid]) return true;
-
-		if (contactId < contacts[mid]) {
-			last = mid -= 1;
-		}
-
-		if (contactId > contacts[mid]) {
-			first = mid += 1;
-		}
+	for (int i = 0; i < contacts.size(); i++) {
+		if (contacts[i] == contactId) return true;
 	}
 	return false;
 }
