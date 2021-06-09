@@ -127,32 +127,29 @@ User FilesManager::load_user_instance_from_disc(int user_id)
 
 
 	// Load messages in vectors
-	vector <Message> sent_messages_vector = load_user_messages_from_disc(sent_messages_file);
-	vector <Message> received_messages_vector = load_user_messages_from_disc(received_messages_file);
-	vector <Message> favorite_messages_vector = load_user_messages_from_disc(favorite_messages_file);
+	deque<Message> sent_messages = load_user_messages_from_disc(sent_messages_file);
+	deque<Message> received_messages = load_user_messages_from_disc(received_messages_file);
+	deque<Message> favorite_messages = load_user_messages_from_disc(favorite_messages_file);
 
-	// move messages from vectors to suitable data structures
-	deque<Message> sent_messages_stack = vector_to_deque(sent_messages_vector);
-	deque<Message> received_messages_stack = vector_to_deque(received_messages_vector);
-	deque<Message> favorite_messages_deque = vector_to_deque(favorite_messages_vector);
+
 	
 
 	vector<int> contacts = load_user_contants_from_disc(contacts_file);
 	vector<string> basic_data = load_user_basic_data_from_disc(basic_data_file);
 
-	User user(user_id, basic_data[0], basic_data[1], sent_messages_stack, received_messages_stack,
-		favorite_messages_deque, contacts);
+	User user(user_id, basic_data[0], basic_data[1], sent_messages, received_messages,
+		favorite_messages, contacts);
 
-	return user; // تم بحمد الله
+	return user; 
 }
 
 
-vector<Message> FilesManager::load_user_messages_from_disc(string messages_file_path)
+deque<Message> FilesManager::load_user_messages_from_disc(string messages_file_path)
 {
 
 	const char* messages_file_path_const = messages_file_path.c_str();
 
-	vector<Message> messages;
+	deque<Message> messages;
 
 	filesReader.open(messages_file_path_const);
 
@@ -177,17 +174,6 @@ vector<Message> FilesManager::load_user_messages_from_disc(string messages_file_
 	filesReader.close();
 
 	return messages;
-}
-
-
-deque<Message> FilesManager:: vector_to_deque(vector<Message> messages_vector)
-{
-	deque<Message> messages_deque;
-
-	for (Message m : messages_vector)
-		messages_deque.push_back(m);
-
-	return messages_deque;
 }
 
 

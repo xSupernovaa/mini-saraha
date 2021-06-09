@@ -26,9 +26,8 @@ private:
 	void add_new_user_credintials_to_disc(string username, string password, int id);
 	void create_new_user_data_files(string folder_path);
 	void create_new_user_file(string file_path);
-	vector<Message> load_user_messages_from_disc(string user_folder_path);
+	deque<Message> load_user_messages_from_disc(string user_folder_path);
 	vector<int> load_user_contants_from_disc(string user_folder_path);
-	deque<Message> vector_to_deque(vector<Message> messages_vector);
 	vector<string> load_user_basic_data_from_disc(string basic_data_file);
 	void add_user_basicData_to_disc(string username, string password, int id, string folderPath);
 };
