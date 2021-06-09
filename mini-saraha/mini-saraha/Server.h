@@ -20,14 +20,14 @@ private:
 	/*cached data are cleared on each new login
 	 and only contain data created on that session only*/
 	/* there was no need for recieved messages cache since
-	activity is only made by the logged in user*/
+	activity is only made by the logged in user
+	
+	favorite messages are not cached since their file is overwritten each session*/
 	deque<Message> sent_Messages_Cache;
-	deque<Message> favorite_Messages_Cache;
 	vector<int> added_Contacts_Cache;
 	
 public:
 	
-	bool isMessageDeletion;
 	Server(); 
 	void addContact(int targetId);
 	void sendMessage(Message message);

@@ -15,7 +15,6 @@ Server::Server()
 	users_credentials = files.load_users_credintials_from_disc();
 	current_logged_user = NULL;
 	userCount = users_credentials.size();
-	isMessageDeletion = false;
 }
 
 /**Add the reciver user to sender user's contact list*/
@@ -47,6 +46,8 @@ void Server::sendMessage(Message message)
 		cout << "Sender or Reciver Id not found please check the ids and try again\n";
 }
 
+
+/*user can only delete last sent message in session*/
 void Server::deleteLastMessage()
 {
 	if (sent_Messages_Cache.empty())
@@ -54,7 +55,6 @@ void Server::deleteLastMessage()
 		cout << "No messages sent this session!";
 		return;
 	}
-	isMessageDeletion = true;
 	Message lastMessage = sent_Messages_Cache.back();
 	int receiverId = lastMessage.getRecieverId();
 	User* receiver = Server::findUser(receiverId);
@@ -74,19 +74,12 @@ void Server::addFavoriteMessage(Message message)
 {
 	if (!current_logged_user->isfavoriteFound(message)) {
 		current_logged_user->addToFavorite(message);
-
-		//cache
-		favorite_Messages_Cache.push_back(message);
 	}
 }
 
 void Server::delete_Last_Favorite_Message()
 {
-	isMessageDeletion = true;
 	current_logged_user->deleteLastFavorite();
-
-	//cache
-	
 }
 
 bool Server::registerUser(string username, string password)
@@ -139,7 +132,6 @@ bool Server::validate_username_register(string username)
 	if (username_exist==true||password_match==false)
 	{
 		//username already exist or not match with pattern
-		// Hazem : Show the user that he must enter a username consisting of letters and no less than five characters
 		return false;
 	}
 	else
@@ -168,12 +160,10 @@ void Server::saveSession()
 {
 	auto favorite_messages = current_logged_user->getFavoriteMessages();
 	files.add_user_data_to_disk(current_logged_user->getID(),
-		isMessageDeletion,
 		sent_Messages_Cache,
 		favorite_messages,
 		added_Contacts_Cache);
 
-	isMessageDeletion = false;
 	added_Contacts_Cache.clear();
 }
 
@@ -191,10 +181,12 @@ User* Server::get_Current_Logged_User()
 	return current_logged_user;
 }
 
+
+/*saves session if user closed the program outside the interface*/
 Server::~Server()
 {
 	if(sessionStarted)
-	saveSession();
+		saveSession();
 }
 
 

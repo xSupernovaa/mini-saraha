@@ -116,12 +116,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\me\Desktop\New folder\mini-saraha\mini-saraha\mini-saraha\library\tgui\include;C:\Users\me\Desktop\New folder\mini-saraha\mini-saraha\mini-saraha\library\sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>SFML-2.5.1\include;TGUI-0.9\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\me\Desktop\New folder\mini-saraha\mini-saraha\mini-saraha\library\sfml\lib;C:\Users\me\Desktop\New folder\mini-saraha\mini-saraha\mini-saraha\library\tgui\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>SFML-2.5.1\lib;TGUI-0.9\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;tgui-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

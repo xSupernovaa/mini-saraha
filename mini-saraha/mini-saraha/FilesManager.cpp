@@ -258,13 +258,11 @@ vector<string> FilesManager:: load_user_basic_data_from_disc(string basic_data_f
 
 
 void FilesManager::add_user_data_to_disk(int logged_user_id,
-										 bool isMessageDeletion,
 										 deque<Message> &sent_messages,
 										 deque<Message> &favorite_messages,
 										 vector<int> &added_contacts)
 {
 	string user_folder_path = "data/users/user_" + to_string(logged_user_id);
-	//auto writeType = isMessageDeletion ? ofstream::trunc : ofstream::app;
 	auto writeType = ofstream::app;
 
 	string sent_messages_file = user_folder_path + "/sent_messages.txt";
@@ -313,7 +311,7 @@ void FilesManager::add_user_data_to_disk(int logged_user_id,
 
 
 	string contacts_file = user_folder_path + "/contacts.txt";
-	filesWriter.open(contacts_file, ofstream::app);
+	filesWriter.open(contacts_file, writeType);
 	for (int contactsCnt = 0; contactsCnt < added_contacts.size(); contactsCnt++)
 	{
 		
