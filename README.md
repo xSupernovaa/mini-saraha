@@ -1,51 +1,12 @@
-Bassel, 29 May
+# Mini-Saraha
+A minimal copy of the famous [Saraha](http://saraha2.com) as a part of a data structures course
+## Features
+• Local anonymous messaging between users <br>
+• Favorite Messages <br>
+• Simple and easy to use GUI <br>
+• Effecient use of data structures. <br>
 
-- created a new function in FilesManager, add_new_user_instance_to_disc(User new_user), it adds the new user creditials to disc, and creates a new folder for the user containing two files, sent_messages.txt and received_messages.txt
+## Examples
 
-- next commit will contain: 
-     loading all user instances from disc to the server
-     
- ##Mario, 29 May
- - created registration function, function to validate password and function to check if the username is already exist or not
- - next commit: 
-     login function
-
-
-Ayman, 31 May
-    • Finished server functions
-    • Added cache variables for storage
-    
-Mario, 31 May
-     -Finished Registration and login functions and their validations
-
-
-Bassel, 01 Jun
-    - created a new function in FilesManager, User load_user_instance_from_disc(int user_id), it returns a user instances with all its fields loaded from disc
-    
- 
-Ayman, 2 Jun
-    • Fixed bugs in server and menus where data wasn't propagated on server
-    • Pushed new user into the users vector after registration
-
-Ayman, 4 Jun commit 1
-    • finished saveSession(), data now saves to disc
-    • added undo last message logic
-
-Ayman, 4 Jun commit 2
-    • added save basic data to file
-    • switched received messages to deque (better support for undo and display order)
-    • fixed bugs in saveSession()
-    • added favorite messages saving and deleting
-    • userMenu now displays username not id
-    • fixed messages display order (newer messages show at top now)
-    • fixed bugs in messages holders (pops and pushes weren't targeting correct message)
-
-    To Do:
-        - view all the received messages from specific contact.
-        - display sender id beside message content in view messages
-        - view all contacts of specific user.
-        - testing
-        after the above is done: gui
-        
-Bavlly, 4 Jun 
-      • finished all todos 
+![1](https://user-images.githubusercontent.com/60978780/154911774-ea6ddd62-2bf4-4642-9ac8-4b84d31172c9.JPG)
+![2](https://user-images.githubusercontent.com/60978780/154911789-4c093ed4-dd7c-4f29-9fc1-1131e310ceac.JPG)
